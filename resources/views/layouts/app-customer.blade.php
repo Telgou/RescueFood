@@ -54,9 +54,6 @@
                         <a class="nav-link" href="{{ url('menu_customer') }}">Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/chatify">Chat</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('customer.artikel')}}">Artikel</a>
                     </li>
                     <li class="nav-item">
