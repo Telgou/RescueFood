@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,10 +19,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'no_hp',
-        'tempat_lahir',
         'tanggal_lahir',
         'email',
         'password',
+        'association_id', 
     ];
 
     /**
@@ -46,4 +45,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Get the association that owns the user.
+     */
+    public function association()
+    {
+        return $this->belongsTo(Association::class); // Définir la relation ici
+    }
 }

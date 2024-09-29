@@ -1,41 +1,60 @@
 @extends('layouts.app-customer')
 
 @section('content')
-<section class="header-main border-bottom bg-white">
-    <div class="container-fluid">
-        <div class="row p-2 pt-3 pb-3 d-flex align-items-center">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-8">
-                <div class="d-flex form-inputs">
-                    <input class="form-control" type="text" placeholder="Search any product...">
-                    <i class="bx bx-search"></i>
-                </div>
-            </div>
+<div class="container">
+    <h1>Faire une demande</h1>
 
-            <div class="col-md-2">
-                <div class="d-flex d-none d-md-flex flex-row align-items-center">
-                    <span class="shop-bag"><i class='bx bxs-shopping-bag'></i></span>
-                </div>
-            </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-    </div>
-</section>
+    @endif
 
-<div class="container" id="coffee">
-    <h2 class="promo-heading mt-4">Promo</h2>
-    <div class="row" style="margin-top: 30px;">
-        @foreach($promos as $promo)
-        <div class="col-md-3 py-0 py-md-0">
-            <div class="card border-0">
-                <img src="{{ asset($promo->gambar_promo) }}" alt="{{ $promo->nama_promo }}">
-                <div class="card-body">
-                    <h3 class="menu-coffee">{{ $promo->nama_promo }}</h3>
-                </div>
-            </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-        @endforeach
-    </div>
+    @endif
+
+    <form action="{{ route('demandes.store') }}" method="POST">
+        @csrf
+        
+        <!-- Sélection de l'association -->
+        <div class="form-group">
+            <label for="association_id">Association</label>
+            <select name="association_id" id="association_id" class="form-control" required>
+                <option value="">Sélectionnez une association</option>
+                @foreach($associations as $association)
+                    <option value="{{ $association->id }}">{{ $association->nom }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Produit -->
+        <div class="form-group">
+            <label for="produit">Produit demandé</label>
+            <input type="text" name="produit" id="produit" class="form-control" placeholder="Produit" required>
+        </div>
+
+        <!-- Quantité -->
+        <div class="form-group">
+            <label for="quantite">Quantité</label>
+            <input type="number" name="quantite" id="quantite" class="form-control" placeholder="Quantité" required min="1">
+        </div>
+
+        <!-- Date de collecte -->
+        <div class="form-group">
+            <label for="date_collecte">Date de collecte</label>
+            <input type="date" name="date_collecte" id="date_collecte" class="form-control" required>
+        </div>
+
+        <!-- Soumettre -->
+        <button type="submit" class="btn btn-primary">Soumettre la demande</button>
+    </form>
 </div>
 
 @endsection

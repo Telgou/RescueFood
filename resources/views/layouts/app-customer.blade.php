@@ -47,33 +47,25 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('customer.dashboard') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('promo_customer') }}">Promo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('menu_customer') }}">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('customer.artikel')}}">Artikel</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cart.index') }}">
-                            Keranjang
-                            <span>
-                                {{ Cart::count() }}
-                            </span>
-                        </a>
-                    </li>
+
+                 <li class="nav-item">
+    <a class="nav-link" href="{{ route('demandes.create') }}">demands</a>
+</li>
+<li class="nav-item">
+        <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
+    </li>
+                   
+
                     @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="#">Profil</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/customer/orders')}}">Notifikasi</a></li>
-                            <li><a class="dropdown-item" href="{{ url('registrasi_mitra') }}">Registrasi Mitra</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/customer/orders')}}">Notifications</a></li>
+                            <li><a class="dropdown-item" href="{{ url('registrasi_mitra') }}">Partner Registration</a></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </li>
