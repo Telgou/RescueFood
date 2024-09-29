@@ -12,6 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -113,6 +114,7 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', function () {
             return view('customer.dashboard');
         })->name('customer.dashboard');
+        
     });
 });
 Route::post('/add_to_cart', [MenuController::class, 'addToCart'])->name('addToCart');
@@ -159,3 +161,14 @@ Route::get('/cart/total', [CartController::class, 'getTotal']);
 Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/landing_page/artikel/{id}', [ArtikelController::class, 'show'])->name('landing_page.show_artikel');
 Route::get('/customer/artikel/{id}', [ArtikelController::class, 'show_customer'])->name('customer.show_artikel');
+
+
+Route::post('/check-association', [DemandeController::class, 'checkAssociation'])->name('check.association');
+Route::get('/demandes/create', [DemandeController::class, 'create'])->name('demandes.create');
+Route::post('/demandes', [DemandeController::class, 'store'])->name('demandes.store');
+
+Route::get('/mes-demandes', [DemandeController::class, 'mesDemandes'])->name('demandes.mesdemandes');
+
+Route::delete('/demandes/{id}', [DemandeController::class, 'destroy'])->name('demandes.destroy');
+Route::get('/demandes/{id}/edit', [DemandeController::class, 'edit'])->name('demandes.edit');
+Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demandes.update');

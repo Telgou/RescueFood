@@ -14,37 +14,39 @@
                         <h2 class="judul-login">Register your account</h2>
                         <form action="{{ route('register.save') }}" method="POST">
                             @csrf
-                            <p>Nama</p>
+                            <p>Name</p>
                             <div class="form-group">
                                 <label for="name" class="sr-only">Name</label>
                                 <input type="text" name="name" id="exampleInputName"
                                     class="form-control @error('name')is-invalid @enderror"
-                                    placeholder="Masukkan Nama Anda ...." />
+                                    placeholder="Enter your name ...." />
                                 @error('name')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <p>No. Hp</p>
+                            <p>Phone number</p>
                             <div class="form-group">
                                 <label for="no_hp" class="sr-only">No. Hp</label>
                                 <input type="text" name="no_hp" id="exampleInputName"
                                     class="form-control @error('no_hp')is-invalid @enderror"
-                                    placeholder="Masukkan No. Hp Anda ...." />
+                                    placeholder="Enter the phone number ...." />
                                 @error('no_hp')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <p>Tempat Lahir</p>
-                            <div class="form-group">
-                                <label for="tempat_lahir" class="sr-only">Tempat</label>
-                                <input type="text" name="tempat_lahir" id="exampleInputName"
-                                    class="form-control @error('tempat_lahir')is-invalid @enderror"
-                                    placeholder="Masukkan Tempat Lahir Anda ...." />
-                                @error('tempat_lahir')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <p>Tanggal Lahir</p>
+                          
+<p>Name of the association</p>
+<div class="form-group">
+    <label for="nom_association" class="sr-only">Nom de l'Association</label>
+    <input type="text" name="nom_association" id="nom_association"
+           class="form-control @error('nom_association') is-invalid @enderror"
+           placeholder="Enter the name of the association..." />
+    @error('nom_association')
+        <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+</div>
+                            
+                            <p>Date of birth</p>
                             <div class="form-group">
                                 <label for="tanggal_lahir" class="sr-only">Tanggal Lahir</label>
                                 <input id="tanggal_lahir" type="text"
@@ -55,12 +57,12 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <p>Email</p>
+                            <p>E-mail</p>
                             <div class="form-group">
                                 <label for="email" class="sr-only">Email</label>
                                 <input type="email" name="email" id="exampleInputEmail"
                                     class="form-control @error('email')is-invalid @enderror"
-                                    placeholder="Masukkan Email Anda ...." />
+                                    placeholder="Enter your email ...." />
                                 @error('email')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -70,17 +72,17 @@
                                 <label for="password" class="sr-only">Password</label>
                                 <input type="password" name="password" id="exampleInputPassword"
                                     class="form-control @error('password')is-invalid @enderror"
-                                    placeholder="Masukkan Password Anda ...." />
+                                    placeholder="Enter your password ...." />
                                 @error('password')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <p>Konfirmasi Password</p>
+                            <p>Confirmez le mot de passe</p>
                             <div class="form-group mb-4">
                                 <label for="password" class="sr-only">Repeat Password</label>
                                 <input type="password" name="password_confirmation" id="exampleRepeatPassword"
                                     class="form-control @error('password_confirmation')is-invalid @enderror"
-                                    placeholder="Masukkan Ulang Password Anda ...." />
+                                    placeholder="Confirm password ...." />
                                 @error('password_confirmation')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror

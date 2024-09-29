@@ -15,15 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('no_hp');
-            $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['customer', 'admin', 'mitra'])->default('customer');
             $table->string('foto', 300)->nullable();
+            $table->unsignedBigInteger('association_id')->nullable(); 
             $table->rememberToken();
             $table->timestamps();
+
+            // Définir la clé étrangère
+            $table->foreign('association_id')->references('id')->on('associations')->onDelete('cascade');
         });
     }
 
@@ -32,6 +35,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['association_id']); // Supprimer la contrainte de clé étrangère
+            $table->dropColumn('association_id'); // Supprimer la colonne
+        });
+
         Schema::dropIfExists('users');
     }
 };

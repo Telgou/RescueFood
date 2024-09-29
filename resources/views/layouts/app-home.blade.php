@@ -33,15 +33,13 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ url('/') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('promo') }}">Promo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('menu') }}">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing_page.artikel')}}">Artikel</a>
-                    </li>
+ <li class="nav-item">
+    <a class="nav-link" href="{{ route('demandes.create') }}"> demands</a>
+</li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
+    </li>
+                
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('login') }}">Login</a>
                     </li>

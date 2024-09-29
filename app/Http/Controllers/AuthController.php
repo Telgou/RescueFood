@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-  
+  use App\Models\Association;
 class AuthController extends Controller
 {
     public function register()
@@ -16,30 +16,37 @@ class AuthController extends Controller
         return view('auth/register');
     }
   
-    public function registerSave(Request $request)
-    {
-        Validator::make($request->all(), [
-            'name' => 'required',
-            'no_hp' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed'
-        ])->validate();
-  
-        User::create([
-            'name' => $request->name,
-            'no_hp' => $request->no_hp,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'customer',
-        ]);
-  
-        return redirect()->route('login');
-    }
-  
+public function registerSave(Request $request)
+{
+    Validator::make($request->all(), [
+        'name' => 'required',
+        'no_hp' => 'required',
+        'tanggal_lahir' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|confirmed',
+        'nom_association' => 'required', // Validation pour le nom de l'association
+    ])->validate();
+
+    // Créer l'association
+    $association = Association::create([
+        'nom' => $request->nom_association,
+       
+    ]);
+
+    // Créer l'utilisateur
+    $user = User::create([
+        'name' => $request->name,
+        'no_hp' => $request->no_hp,
+        'tanggal_lahir' => $request->tanggal_lahir,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'association_id' => $association->id, // Associer l'utilisateur à l'association
+        'role' => 'customer',
+    ]);
+
+    return redirect()->route('login');
+}
+
     public function login()
     {
         return view('auth/login');
