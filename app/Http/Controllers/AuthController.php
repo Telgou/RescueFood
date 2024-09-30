@@ -67,8 +67,8 @@ public function registerSave(Request $request)
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'customer') {
                 return redirect()->route('customer.dashboard');
-            } elseif ($user->role === 'mitra') {
-                return redirect()->route('mitra.dashboard');
+            } elseif ($user->role === 'restaurant') {
+                return redirect()->route('restaurant.dashboard');
             }            
         }
 

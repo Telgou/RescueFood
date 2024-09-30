@@ -4,15 +4,15 @@
 <div class="mt-5">
     <div class="container mt-5">
         <div class="row">
-            @foreach($artikel as $article)
+            @foreach($food as $article)
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <img src="{{ asset($article->sampul) }}" class="card-img-top" alt="{{ $article->judul }}">
+                    <img src="{{ asset($article->image) }}" class="card-img-top" alt="{{ $article->judul }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $article->judul }}</h5>
                         <p class="card-text">{{ Str::limit($article->isi, 100) }}</p>
-                        <a href="{{ route('customer.show_artikel', $article->id) }}" class="btn btn-primary">Baca
-                            Artikel</a>
+                        <a href="{{ route('customer.show_food', $article->id) }}" class="btn btn-primary">Baca
+                            Food</a>
                     </div>
                 </div>
             </div>

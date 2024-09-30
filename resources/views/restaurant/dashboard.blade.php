@@ -5,11 +5,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mitra Admin Dashboard</title>
+    <title>Restaurant Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" />
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('admin_assets2/css/style.css') }}" />
 </head>
+
+
 
 <body>
     <div class="wrapper">
@@ -17,30 +19,29 @@
             <!-- Content For Sidebar -->
             <div class="h-100">
                 <div class="sidebar-logo">
-                    <a href="#">Mitra Dashboard</a>
+                    <a href="#">Restaurant Dashboard</a>
                 </div>
                 <ul class="sidebar-nav">
-                    <li class="sidebar-header">Navigation Sidebar</li>
                     <li class="sidebar-item">
-                        <a href="{{url('mitra/dashboard')}}" class="sidebar-link">
+                        <a href="{{url('restaurant/dashboard')}}" class="sidebar-link">
                             <i class="fa-solid fa-list pe-2"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{url('menus')}}" class="sidebar-link active">
+                        <a href="{{url('restaurant/food')}}" class="sidebar-link active">
                             <i class="fa-solid fa-hamburger pe-2"></i>
                             Menu
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{url('stocks')}}" class="sidebar-link">
+                        <a href="{{url('restaurant/stocks')}}" class="sidebar-link">
                             <i class="fa-solid fa-archive pe-2"></i>
                             Stock
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{url('orders')}}" class="sidebar-link">
+                        <a href="{{url('restaurant/orders')}}" class="sidebar-link">
                             <i class="fa-solid fa-comment-dollar pe-2"></i>
                             Pemesanan
                         </a>
@@ -67,19 +68,21 @@
                 </div>
             </nav>
             <main class="content px-3 py-2">
+                @if(request()->is('restaurant/dashboard'))
                 <div class="container-fluid">
                     <div class="mb-3">
-                        <h4>Admin Dadshboard</h4>
+                        <h4>Restaurant Dashboard</h4>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 d-flex">
                             <h2>Welcome Back, {{ Auth::user()->name }}</h2>
                         </div>
                         <!-- Assuming you have a variable $totalEarnings available in your Blade view -->
-
                     </div>
                     <!-- Table Element -->
                 </div>
+                @endif
+                @yield('content')
             </main>
             <a href="#" class="theme-toggle">
                 <i class="fa-regular fa-moon"></i>
@@ -91,7 +94,7 @@
                         <div class="col-6 text-start">
                             <p class="mb-0">
                                 <a href="#" class="text-muted">
-                                    <strong>Coffside</strong>
+                                    <strong></strong>
                                 </a>
                             </p>
                         </div>

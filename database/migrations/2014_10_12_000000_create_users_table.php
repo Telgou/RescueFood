@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['customer', 'admin', 'mitra'])->default('customer');
+            $table->enum('role', ['customer', 'admin', 'restaurant'])->default('customer');
             $table->string('foto', 300)->nullable();
             $table->unsignedBigInteger('association_id')->nullable(); 
             $table->rememberToken();
