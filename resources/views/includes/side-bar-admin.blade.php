@@ -13,21 +13,21 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="{{ url('verifikasi_mitra') }}" class="sidebar-link">
+                <a href="{{ url('verify_restaurant') }}" class="sidebar-link">
                     <i class="fa-solid fa-comment-dollar pe-2"></i>
-                    Verifikasi Mitra
+                    Verify Restaurant
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="{{ url('data_customer') }}" class="sidebar-link">
                     <i class="fa-solid fa-user pe-2"></i>
-                    Data Akun Customer
+                    Customer Account Data
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="{{ url('daftar-toko') }}" class="sidebar-link">
                     <i class="fa-solid fa-comment-dollar pe-2"></i>
-                    Data Akun Toko
+                    Store Account Data
                 </a>
             </li>
             <li class="sidebar-item">

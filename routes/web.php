@@ -10,9 +10,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\MitraController;
-use App\Http\Controllers\FoodController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\FoodController;
 use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
@@ -85,7 +84,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         'data_customer' => 'user'
     ]);
     Route::resource('promos', PromoController::class);
-    Route::get('/daftar-toko', [MitraController::class, 'dataNamaToko'])->name('daftar_toko.index');
+    Route::get('/daftar-toko', [RestaurantController::class, 'dataNamaToko'])->name('daftar_toko.index');
 
     Route::prefix('admin')->group(function () {
         Route::get('dashboard', function () {
@@ -143,23 +142,24 @@ Route::post('/cart/store-order', [PromoController::class, 'storeOrder'])->name('
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/customer/orders', [CustomerController::class, 'orders'])->name('customer.orders');
 
-Route::get('/registrasi_mitra', function (){
+Route::get('/registrasi_restaurant', function (){
     return view('customer.form');
-});
-Route::get('/mitra/create', [MitraController::class, 'create'])->name('mitra.create');
-Route::post('/mitra/store', [MitraController::class, 'store'])->name('mitra.store');
-Route::get('/verifikasi_mitra', function (){
-    return view('admin.list_mitra.verifikasi');
 });
 Route::get('/dashboard', function (){
     return view('admin.dashboard');
 });
-Route::get('/verifikasi_mitra', [MitraController::class, 'index'])->name('verifikasi_mitra');
-Route::get('/lihat_data_mitra', function (){
-    return view('admin.list_mitra.show');
+
+
+Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
+Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
+Route::get('/verify_restaurant', [RestaurantController::class, 'index'])->name('verify_restaurant');
+Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
+
+Route::get('/lihat_data_restaurant', function (){
+    return view('admin.list_restaurant.show');
 });
-Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('admin.list_mitra.show');
-Route::post('/mitra/{id}/accept', [MitraController::class, 'accept'])->name('mitra.accept');
+Route::get('/restaurant/{id}', [RestaurantController::class, 'show'])->name('admin.list_restaurant.show');
+Route::post('/restaurant/{id}/accept', [RestaurantController::class, 'accept'])->name('restaurant.accept');
 Route::get('/profil_customer', function (){
     return view('customer.profil');
 });
@@ -169,7 +169,7 @@ Route::get('/landing_page/food', [FoodController::class, 'read'])->name('landing
 
 
 
-Route::get('/menus/create', [MitraController::class, 'listNamaToko'])->name('menus.create');
+Route::get('/menus/create', [RestaurantController::class, 'listNamaToko'])->name('menus.create');
 Route::middleware(['auth'])->group(function () {
     Route::resource('menus', MenuController::class);
 });
@@ -193,4 +193,3 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
-
