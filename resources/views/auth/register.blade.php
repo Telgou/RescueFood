@@ -35,16 +35,53 @@
                                 @enderror
                             </div>
                           
-<p>Name of the association</p>
-<div class="form-group">
-    <label for="nom_association" class="sr-only">Nom de l'Association</label>
-    <input type="text" name="nom_association" id="nom_association"
-           class="form-control @error('nom_association') is-invalid @enderror"
-           placeholder="Enter the name of the association..." />
-    @error('nom_association')
-        <span class="invalid-feedback">{{ $message }}</span>
-    @enderror
-</div>
+                            <div id="associationDiv">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <p class="mb-0">Name of the association</p>
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input" type="checkbox" id="isRestaurant" name="isRestaurant">
+                                        <label class="form-check-label" for="isRestaurant">Register as a restaurant</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_association" class="sr-only">Nom de l'Association</label>
+                                    <input type="text" name="nom_association" id="nom_association"
+                                        class="form-control @error('nom_association') is-invalid @enderror"
+                                        placeholder="Enter the name of the association..." />
+                                    @error('nom_association')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div id="restaurantDiv" style="display: none;">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <p class="mb-0">Name of the restaurant</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_restaurant" class="sr-only">Nom du Restaurant</label>
+                                    <input type="text" name="nom_restaurant" id="nom_restaurant"
+                                        class="form-control @error('nom_restaurant') is-invalid @enderror"
+                                        placeholder="Enter the name of the restaurant..." />
+                                    @error('nom_restaurant')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById('isRestaurant').addEventListener('change', function() {
+                                    var associationDiv = document.getElementById('associationDiv');
+                                    var restaurantDiv = document.getElementById('restaurantDiv');
+                                    if (this.checked) {
+                                        associationDiv.style.display = 'none';
+                                        restaurantDiv.style.display = 'block';
+                                    } else {
+                                        associationDiv.style.display = 'block';
+                                        restaurantDiv.style.display = 'none';
+                                    }
+                                });
+                            </script>
                             
                             <p>Date of birth</p>
                             <div class="form-group">
@@ -112,6 +149,16 @@ $(document).ready(function() {
         format: 'yyyy-mm-dd', // format tanggal yang diinginkan
         autoclose: true,
         todayHighlight: true
+    });
+
+    $('#isRestaurant').change(function() {
+        if(this.checked) {
+            $('#associationDiv').hide();
+            $('#restaurantDiv').show();
+        } else {
+            $('#associationDiv').show();
+            $('#restaurantDiv').hide();
+        }
     });
 });
 </script>

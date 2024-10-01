@@ -11,7 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MitraController;
-use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\FoodController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
@@ -86,24 +87,37 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('dashboard', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
-        Route::get('/artikels', [ArtikelController::class, 'index'])->name('artikels.index');
-        Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-        Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
-        Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
-        Route::get('/artikel/{artikel}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
-        Route::put('/artikel/{artikel}', [ArtikelController::class, 'update'])->name('artikel.update');
-        Route::delete('/artikel/{artikel}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+        Route::get('/foods', [FoodController::class, 'index'])->name('foods.index');
+        Route::get('/food', [FoodController::class, 'index'])->name('food.index');
+        Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
+        Route::post('/food', [FoodController::class, 'store'])->name('food.store');
+        Route::get('/food/{food}/edit', [FoodController::class, 'edit'])->name('food.edit');
+        Route::put('/food/{food}', [FoodController::class, 'update'])->name('food.update');
+        Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
     });
 });
-
-Route::middleware(['auth', 'role:mitra'])->group(function () {
+            
+Route::middleware(['auth', 'role:restaurant'])->group(function () {
+    
     Route::resource('menus', MenuController::class);
     Route::resource('stocks', StockController::class);
     Route::resource('orders', OrderController::class);
-    Route::prefix('mitra')->group(function () {
+    Route::prefix('restaurant')->group(function () {
         Route::get('dashboard', function () {
-            return view('mitra.dashboard');
-        })->name('mitra.dashboard');
+            return view('restaurant.dashboard');
+        })->name('restaurant.dashboard');
+        /*Route::get('food', function () {
+            return view('food.index');
+        })->name('food.index');*/
+        // Food routes
+        Route::get('food', [FoodController::class, 'index'])->name('food.index');
+                    Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
+                    Route::post('/food', [FoodController::class, 'store'])->name('food.store');
+                    Route::get('/food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit');
+                    Route::put('/food/{id}', [FoodController::class, 'update'])->name('food.update');
+                    Route::delete('/food/{id}', [FoodController::class, 'destroy'])->name('food.destroy');
+        
+
     });
 
 });
@@ -145,8 +159,8 @@ Route::post('/mitra/{id}/accept', [MitraController::class, 'accept'])->name('mit
 Route::get('/profil_customer', function (){
     return view('customer.profil');
 });
-Route::get('/customer/artikel', [ArtikelController::class, 'reading'])->name('customer.artikel');
-Route::get('/landing_page/artikel', [ArtikelController::class, 'read'])->name('landing_page.artikel');
+Route::get('/customer/food', [FoodController::class, 'reading'])->name('customer.food');
+Route::get('/landing_page/food', [FoodController::class, 'read'])->name('landing_page.food');
 
 
 
@@ -158,9 +172,9 @@ Route::middleware(['auth'])->group(function () {
 Route::delete('cart/{rowId}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::patch('/cart/update/{rowId}', [CartController::class, 'update']);
 Route::get('/cart/total', [CartController::class, 'getTotal']);
-Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
-Route::get('/landing_page/artikel/{id}', [ArtikelController::class, 'show'])->name('landing_page.show_artikel');
-Route::get('/customer/artikel/{id}', [ArtikelController::class, 'show_customer'])->name('customer.show_artikel');
+Route::get('/food/{id}', [FoodController::class, 'show'])->name('food.show');
+Route::get('/landing_page/food/{id}', [FoodController::class, 'show'])->name('landing_page.show_food');
+Route::get('/customer/food/{id}', [FoodController::class, 'show_customer'])->name('customer.show_food');
 
 
 Route::post('/check-association', [DemandeController::class, 'checkAssociation'])->name('check.association');
@@ -172,3 +186,6 @@ Route::get('/mes-demandes', [DemandeController::class, 'mesDemandes'])->name('de
 Route::delete('/demandes/{id}', [DemandeController::class, 'destroy'])->name('demandes.destroy');
 Route::get('/demandes/{id}/edit', [DemandeController::class, 'edit'])->name('demandes.edit');
 Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demandes.update');
+
+Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');

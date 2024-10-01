@@ -22,7 +22,9 @@ class User extends Authenticatable
         'tanggal_lahir',
         'email',
         'password',
-        'association_id', 
+        'role',
+        'restaurant_id',
+        'association_id',
     ];
 
     /**
@@ -44,6 +46,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function restaurant()
+    {
+        return $this->hasOne(Restaurant::class);
+    }
 
     /**
      * Get the association that owns the user.

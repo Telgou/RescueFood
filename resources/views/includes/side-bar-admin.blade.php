@@ -37,9 +37,9 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="{{ route('artikels.index') }}" class="sidebar-link">
+                <a href="{{ route('foods.index') }}" class="sidebar-link">
                     <i class="fa-solid fa-newspaper pe-2"></i>
-                    Artikel
+                    Food
                 </a>
             </li>
         </ul>
