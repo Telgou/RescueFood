@@ -18,6 +18,7 @@ class Restaurant extends Model
         'user_id',
         'opening_time',
         'closing_time',
+        'status',
     ];
 
     protected $casts = [

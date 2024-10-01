@@ -37,8 +37,12 @@
                             <button name="login" id="login" class="btn btn-block login-btn mb-4"
                                 type="submit">Login</button>
                         </form>
-                        <p class="login-card-footer-text text-center">Don't have an account? <a
+                        
+                        <p class="text-center">Don't have an account? <a
                                 href="{{ url('register') }}" class="text-reset">Register here</a></p>
+                                <p class="login-card-footer-text text-center">Forgot Password? <a
+                                href="{{ url('forgot-password') }}" class="text-reset">Reset Password</a></p>
+
                     </div>
                 </div>
             </div>
