@@ -87,6 +87,6 @@ public function show($id)
         $user->update(['foto' => $path]);
 
         return redirect()->route('customer.profil', $user->id)
-                         ->with('success', 'Photo de profil mise à jour avec succès.');
+                         ->with('success', 'Profile picture updated successfully..');
     }
 }
