@@ -63,9 +63,8 @@
                             {{ Auth::user()->name }}
                         </a>
                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Profil</a></li>
+<li><a class="dropdown-item" href="{{ route('customer.profil', ['id' => auth()->user()->id]) }}">Profil</a></li>
                             <li><a class="dropdown-item" href="{{ url('/customer/orders')}}">Notifications</a></li>
-                            <li><a class="dropdown-item" href="{{ url('registrasi_mitra') }}">Partner Registration</a></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </li>

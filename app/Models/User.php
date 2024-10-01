@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'foto',
         'restaurant_id',
         'association_id',
     ];

@@ -1,91 +1,122 @@
 @extends('layouts.app-customer')
 
 @section('content')
-
-<div class="container">
-    <div class="row gutters">
-        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-            <div class="card h-100">
+<div class="container mt-5">
+    <div class="row">
+        <!-- Section gauche: Profil utilisateur -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center card-custom">
                 <div class="card-body">
-                    <div class="account-settings">
-                        <div class="user-profile">
-                            <div class="user-avatar">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin" />
+                    <!-- Photo de profil -->
+                    <div class="mb-4 d-flex justify-content-center">
+                        @if ($profil_customer->foto)
+                            <img class="rounded-circle img-fluid" 
+                                 style="width: 150px; height: 150px;" 
+                                 src="{{ asset('storage/'.$profil_customer->foto) }}" 
+                                 alt="Photo de profil">
+                        @else
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" 
+                                 style="width: 150px; height: 150px;">
+                                <i class="bi bi-person" style="font-size: 60px; color: #6c757d;"></i>
                             </div>
-                            <h5 class="user-name" value="{{ $profil_customer->name }}"></h5>
-                            <h6 class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                    data-cfemail="9ce5e9f7f5dcd1fde4ebf9f0f0b2fff3f1">[email&#160;protected]</a></h6>
-                        </div>
-                        <div class="about">
-                            <h5>About</h5>
-                            <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human
-                                experiences.</p>
-                        </div>
+                        @endif
                     </div>
+
+                    <!-- Nom de l'utilisateur -->
+                    <h4 class="card-title">{{ $profil_customer->name }}</h4>
+
+                    <!-- Formulaire pour uploader une nouvelle photo -->
+                    <form action="{{ route('customer.profil.updatePhoto', ['id' => $profil_customer->id]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="foto" id="foto" class="form-control-file d-none" onchange="form.submit()">
+                        <button type="button" class="btn" style="background-color: #2aa14b; color: white;" onclick="document.getElementById('foto').click();">
+                            Upload a new photo
+                        </button>
+                    </form>
+
+                    <!-- Message d'information pour les types de fichiers acceptés -->
+                    <small class="text-muted d-block mt-2">JPG ou PNG, max 5 Mo</small>
                 </div>
             </div>
         </div>
-        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-            <div class="card h-100">
+
+        <!-- Section droite: Formulaire de mise à jour du profil -->
+        <div class="col-md-8">
+            <div class="card card-custom">
                 <div class="card-body">
-                    <div class="row gutters">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <h6 class="mb-2 text-primary">Personal Details</h6>
+                    <h4 class="card-title text-center" style="color: #4b4b4b;">Edit profile</h4>
+
+                    <!-- Affichage du message de succès -->
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label for="name">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter full name" />
-                            </div>
+                    @endif
+
+                    <form action="{{ route('customer.profil.update', ['id' => $profil_customer->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Nom -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $profil_customer->name) }}">
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label for="eMail">Email</label>
-                                <input type="email" class="form-control" id="eMail" placeholder="Enter email ID" />
-                            </div>
+
+                        <!-- Numéro de téléphone -->
+                        <div class="mb-3">
+                            <label for="no_hp" class="form-label">Phone number</label>
+                            <input type="text" name="no_hp" id="no_hp" class="form-control" value="{{ old('no_hp', $profil_customer->no_hp) }}">
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label for="phone">No. Hp</label>
-                                <input type="text" class="form-control" id="phone" placeholder="Enter phone number" />
-                            </div>
+
+                        <!-- Date de naissance -->
+                        <div class="mb-3">
+                            <label for="tanggal_lahir" class="form-label">Date of birth</label>
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" value="{{ old('tanggal_lahir', $profil_customer->tanggal_lahir) }}">
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label for="website">Tempat Lahir</label>
-                                <input type="url" class="form-control" id="website" placeholder="Website url" />
-                            </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail address</label>
+                            <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $profil_customer->email) }}">
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label for="website">Tanggal Lahir</label>
-                                <input type="url" class="form-control" id="website" placeholder="Website url" />
-                            </div>
+
+                        <!-- Nouveau mot de passe -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter new password">
                         </div>
-                    </div>
-                    <div class="row gutters">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="text-right">
-                                <button type="button" id="submit" name="submit"
-                                    class="btn btn-secondary">Cancel</button>
-                                <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
-                            </div>
+
+                        <!-- Confirmation du mot de passe -->
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm new password">
                         </div>
-                    </div>
+<!-- Nom de l'association -->
+<div class="mb-3">
+    <label for="association" class="form-label">Association</label>
+    <input type="text" name="association" id="association" class="form-control" value="{{ $association->nom ?? '' }}">
+</div>
+                       
+
+                        <button type="submit" class="btn" style="background-color: #2aa14b; color: white; width: 100%;">Save changes</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript"></script>
-
-
+<!-- Styles CSS intégrés -->
+<style>
+    .card-custom {
+        background-color: #e0e0e0; /* Couleur grise pour la carte */
+    }
+    .rounded-circle {
+        border: 1px solid #CB6D51; /* Ajoute une bordure pour mieux délimiter l'image */
+    }
+</style>
 @endsection
+
+<!-- Inclure l'icône Bootstrap pour l'avatar par défaut -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
