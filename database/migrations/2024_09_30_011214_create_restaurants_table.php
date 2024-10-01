@@ -22,7 +22,6 @@ return new class extends Migration
             $table->time('closing_time')->nullable();
             $table->text('donation_history')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('status')->default('PENDING');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

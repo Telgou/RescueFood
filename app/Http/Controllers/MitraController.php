@@ -3,35 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Restaurant;
+use App\Models\Mitra;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 
-class RestaurantController extends Controller
+class MitraController extends Controller
 {
     public function store(Request $request)
         {
             $validatedData = $request->validate([
-                'restaurant_name' => 'required',
-                'restaurant_phone' => 'required',
-                'owner_name' => 'required',
-                'cuisine_type' => 'required',
-                'restaurant_address' => 'required',
+                'nama_toko' => 'required',
+                'no_hp_toko' => 'required',
+                'name' => 'required',
+                'kategori' => 'required',
+                'alamat_toko' => 'required',
             ]);
 
-            $restaurant = new Restaurant();
-            $restaurant->restaurant_name = $request->restaurant_name;
-            $restaurant->restaurant_phone = $request->restaurant_phone;
-            $restaurant->owner_name = $request->owner_name;
-            $restaurant->cuisine_type = $request->cuisine_type;
-            $restaurant->restaurant_address = $request->restaurant_address;
+            $mitra = new Mitra();
+            $mitra->nama_toko = $request->nama_toko;
+            $mitra->no_hp_toko = $request->no_hp_toko;
+            $mitra->name = $request->name;
+            $mitra->kategori = $request->kategori;
+            $mitra->alamat_toko = $request->alamat_toko;
             
-            // dd($restaurant);
-            $restaurant->save();
+            // dd($mitra);
+            $mitra->save();
 
-            Session::flash('success', 'Restaurant registration successful.');
+            Session::flash('success', 'Registrasi mitra berhasil.');
 
 
             return redirect()->route('customer.dashboard');
@@ -39,47 +39,47 @@ class RestaurantController extends Controller
 
     public function index()
         {
-            $restaurants = Restaurant::where('status', 'PENDING')->get();
-            return view('admin.list_restaurant.verifikasi', compact('restaurants'));
+            $mitras = Mitra::where('status', 'PENDING')->get();
+            return view('admin.list_mitra.verifikasi', compact('mitras'));
         }
 
     public function show($id)
         {
-            $restaurant = Restaurant::where('status', 'PENDING')->findOrFail($id);
-            return view('admin.list_restaurant.show', compact('restaurant'));
+            $mitras = Mitra::where('status', 'PENDING')->findOrFail($id);
+            return view('admin.list_mitra.show', compact('mitras'));
         }
     public function accept($id)
         {
-            $restaurant = Restaurant::findOrFail($id);
+            $mitra = Mitra::findOrFail($id);
     
 
-            $restaurant->status = 'ACCEPT';
-            $restaurant->save();
+            $mitra->status = 'ACCEPT';
+            $mitra->save();
     
 
-            $user = User::where('name', $restaurant->owner_name)->first();
+            $user = User::where('name', $mitra->name)->first();
             if ($user) {
-                $user->role = 'restaurant';  
+                $user->role = 'mitra';  
                 $user->save();
             }
     
-            return redirect()->route('admin.dashboard')->with('success', 'Restaurant successfully accepted and user role updated.');
+            return redirect()->route('admin.dashboard')->with('success', 'Mitra berhasil diterima dan peran pengguna diperbarui.');
         }
     public function create()
         {
             $user = auth()->user();
-            $restaurant = Restaurant::where('user_id', $user->id)->first();
-            return view('menus.create', compact('restaurant'));
+            $mitra = Mitra::where('user_id', $user->id)->first();
+            return view('menus.create', compact('mitra'));
         }
 
-    public function listRestaurantNames()
+    public function listNamaToko()
         {
-            $restaurants = Restaurant::all(['restaurant_name']);
-            return view('menus.create', compact('restaurants'));
+            $mitras = Mitra::all(['nama_toko']);
+            return view('menus.create', compact('mitras'));
         }
-    public function dataRestaurantNames()
+    public function dataNamaToko()
         {
-            $restaurants = Restaurant::where('status', 'ACCEPT')->get();
-            return view('admin.daftar_restaurant.index', compact('restaurants'));
+            $mitras = Mitra::where('status', 'ACCEPT')->get();
+            return view('admin.daftar_toko.index', compact('mitras'));
         }
 }
