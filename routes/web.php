@@ -194,3 +194,7 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
+
+Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
+Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
+Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'])->name('customer.profil.update');

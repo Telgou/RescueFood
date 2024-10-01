@@ -24,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'tanggal_lahir',
         'email',
         'password',
+        'foto',
         'role',
         'restaurant_id',
         'association_id',
