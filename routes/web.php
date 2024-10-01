@@ -75,6 +75,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
 
+Route::get('forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [AuthController::class, 'reset'])->name('password.update');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('data_customer', DataCustomerController::class)->parameters([
@@ -189,3 +193,4 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
+
