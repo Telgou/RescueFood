@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class RestaurantController extends Controller
 {
-    // ... other methods ...
 
     public function edit(Restaurant $restaurant)
     {
@@ -24,10 +24,8 @@ class RestaurantController extends Controller
             'address' => 'nullable|string|max:255',
             'contact' => 'nullable|string|max:255',
             'cuisine_type' => 'nullable|string|max:255',
-            'opening_time' => 'nuzllable|date_format:H:i',
+            'opening_time' => 'nullable|date_format:H:i',
             'closing_time' => 'nullable|date_format:H:i',
-
-
         ]);
         \Log::info('Validated data:', $validated);
 
@@ -53,7 +51,6 @@ class RestaurantController extends Controller
                 ->with('error', 'No changes were made to the restaurant.');
         }
     }
-
 
     public function indexunverified()
     {
