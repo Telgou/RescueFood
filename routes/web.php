@@ -152,7 +152,8 @@ Route::get('/dashboard', function (){
 
 Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
 Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
-Route::get('/verify_restaurant', [RestaurantController::class, 'index'])->name('verify_restaurant');
+Route::get('/verify_restaurant', [RestaurantController::class, 'indexunverified'])->name('verify_restaurant');
+Route::post('/verify_restaurant/{id}', [RestaurantController::class, 'accept'])->name('restaurant.accept');
 Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
 
 Route::get('/lihat_data_restaurant', function (){
