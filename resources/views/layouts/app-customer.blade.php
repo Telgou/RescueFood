@@ -55,6 +55,7 @@
         <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
     </li>
                    
+
                     @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
