@@ -122,5 +122,21 @@ public function edit($id)
 
 return redirect()->route('demandes.mesdemandes')->with('success', 'Demands updated successfully.');
     }
+   public function index()
+{
+    $demandes = Demande::with('association')->get(); 
+    return view('admin.list_demandes.index', compact('demandes'));
+}
+    public function updatee(Request $request, Demande $demande)
+    {
+        $request->validate([
+            'etat' => 'required|in:Onhold,Accepted,Refused', // Validation de l'état
+        ]);
+
+        $demande->etat = $request->etat; // Mise à jour de l'état
+        $demande->save(); // Sauvegarder les changements
+
+        return redirect()->route('admin.list_demandes.index')->with('success', 'demands status updated successfully.');
+    } 
 
 }

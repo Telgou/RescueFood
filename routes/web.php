@@ -156,6 +156,8 @@ Route::get('/verify_restaurant', [RestaurantController::class, 'indexunverified'
 Route::post('/verify_restaurant/{id}', [RestaurantController::class, 'accept'])->name('restaurant.accept');
 Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
 
+
+
 Route::get('/lihat_data_restaurant', function (){
     return view('admin.list_restaurant.show');
 });
@@ -198,3 +200,8 @@ Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
 Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'])->name('customer.profil.update');
+// Routes pour gérer les demandes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/list_demandes', [DemandeController::class, 'index'])->name('list_demandes.index');
+    Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
+});
