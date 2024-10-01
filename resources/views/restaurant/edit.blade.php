@@ -18,7 +18,7 @@
 
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3" required>{{ old('address', $restaurant->address) }}</textarea>
+                    <input type="text" class="form-control" id="address" name="address" required>{{ old('address', $restaurant->address) }}</input>
                 </div>
 
                 <div class="mb-3">
