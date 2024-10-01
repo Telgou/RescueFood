@@ -17,38 +17,32 @@
     <form action="{{ route('food.update', $food->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="form-group"><br>
-            <label for="judul">Judul Food:</label><br>
-            <input type="text" class="form-control" id="judul" name="judul" value="{{ $food->judul }}" required>
-        </div><br>
         <div class="form-group">
-            <label for="topic">Topik Food:</label><br>
-            <select class="form-control" id="topic" name="topic" required>
-                <option value="Kesehatan" {{ $food->topic === 'Kesehatan' ? 'selected' : '' }}>
-                    Kesehatan</option>
-                <option value="Kecantikan" {{ $food->topic === 'Kecantikan' ? 'selected' : '' }}>
-                    Kecantikan</option>
-                <option value="Lifestyle" {{ $food->topic === 'Lifestyle' ? 'selected' : '' }}>
-                    Lifestyle</option>
-            </select>
-        </div><br>
-
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $food->name) }}" required>
+        </div>
         <div class="form-group">
-            <label for="image">image Food:</label><br>
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" required>{{ old('description', $food->description) }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
             <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-        </div><br>
+            @if($food->image)
+                <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->name }}" width="100" class="mt-2">
+            @endif
+        </div>
         <div class="form-group">
-            <label for="isi">Isi Food:</label><br>
-            <textarea class="form-control" id="isi" name="isi" required>{{ $food->isi }}</textarea>
-        </div><br>
+            <label for="expired_date">Expiry Date:</label>
+            <input type="date" class="form-control" id="expired_date" name="expired_date" value="{{ old('expired_date', $food->expired_date) }}" required>
+        </div>
         <div class="form-group">
-            <label for="penulis">Penulis:</label><br>
-            <input type="text" class="form-control" id="penulis" name="penulis" value="{{ $food->penulis }}"
-                readonly>
-        </div><br>
+            <label for="restaurant_id">Restaurant:</label>
+            <input type="text" class="form-control" id="restaurant_id" name="restaurant_id" value="{{ $food->restaurant->name ?? '' }}" readonly>
+        </div>
         <div class="d-flex justify-content-between mt-3">
-            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ route('food.index') }}" class="btn btn-secondary">Back</a>
         </div>
     </form>
 </div>
