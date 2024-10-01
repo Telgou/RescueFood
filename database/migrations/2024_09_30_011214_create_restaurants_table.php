@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->string('cuisine_type')->nullable();
             $table->integer('total_food')->default(0);
-            $table->string('opening_hours')->nullable();
+            $table->time('opening_time')->nullable();
+            $table->time('closing_time')->nullable();
             $table->text('donation_history')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

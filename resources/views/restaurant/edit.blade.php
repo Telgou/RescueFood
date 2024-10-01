@@ -32,8 +32,21 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="opening_hours" class="form-label">Opening Hours</label>
-                    <input type="text" class="form-control" id="opening_hours" name="opening_hours" value="{{ old('opening_hours', $restaurant->opening_hours) }}" required>
+                    <label class="form-label">Opening Hours</label>
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <label for="opening_time">Opening Time</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" id="opening_time" name="opening_time" value="{{ old('opening_time', $restaurant->opening_time ? $restaurant->opening_time->format('H:i') : '') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="closing_time">Closing Time</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" id="closing_time" name="closing_time" value="{{ old('closing_time', $restaurant->closing_time ? $restaurant->closing_time->format('H:i') : '') }}">
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update Restaurant</button>

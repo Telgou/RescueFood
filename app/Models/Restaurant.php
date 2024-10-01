@@ -14,9 +14,15 @@ class Restaurant extends Model
         'contact',
         'cuisine_type',
         'total_food',
-        'opening_hours',
         'donation_history',
         'user_id',
+        'opening_time',
+        'closing_time',
+    ];
+
+    protected $casts = [
+        'opening_time' => 'datetime:H:i',
+        'closing_time' => 'datetime:H:i',
     ];
 
     public function food()
@@ -34,4 +40,13 @@ class Restaurant extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function setOpeningHoursAttribute($value)
+    {
+        $this->attributes['opening_hours'] = json_encode($value);
+    }
+
+    public function getOpeningHoursAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }
