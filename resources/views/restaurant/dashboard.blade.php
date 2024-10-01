@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="{{ asset('admin_assets2/css/style.css') }}" />
 </head>
 
-
-
 <body>
     <div class="wrapper">
         <aside id="sidebar" class="js-sidebar">
@@ -26,6 +24,12 @@
                         <a href="{{url('restaurant/dashboard')}}" class="sidebar-link">
                             <i class="fa-solid fa-list pe-2"></i>
                             Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('restaurant.edit') }}" class="sidebar-link">
+                            <i class="fa-solid fa-edit pe-2"></i>
+                            Edit Restaurant
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -66,6 +70,10 @@
                         </li>
                     </ul>
                 </div>
+                <a href="#" class="theme-toggle ms-2">
+                    <i class="fa-regular fa-moon"></i>
+                    <i class="fa-regular fa-sun"></i>
+                </a>
             </nav>
             <main class="content px-3 py-2">
                 @if(request()->is('restaurant/dashboard'))
@@ -84,10 +92,6 @@
                 @endif
                 @yield('content')
             </main>
-            <a href="#" class="theme-toggle">
-                <i class="fa-regular fa-moon"></i>
-                <i class="fa-regular fa-sun"></i>
-            </a>
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row text-muted">

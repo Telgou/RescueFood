@@ -35,8 +35,8 @@
                 <td>{{ $item->expired_date }}</td>
                 <td>{{ $item->restaurant->name }}</td>
                 <td>
-                    <a href="{{ route('restaurant.food.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                    <form action="{{ route('restaurant.food.destroy', $item->id) }}" method="POST" class="d-inline">
+                    <a href="{{ route('food.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('food.destroy', $item->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger"

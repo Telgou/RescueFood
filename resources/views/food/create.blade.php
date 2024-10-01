@@ -25,10 +25,6 @@
             <textarea name="description" id="description" class="form-control" required></textarea>
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" name="price" id="price" class="form-control" step="0.01" required>
-        </div>
-        <div class="form-group">
             <label for="image">Image</label>
             <input type="file" name="image" id="image" class="form-control-file" required>
         </div>

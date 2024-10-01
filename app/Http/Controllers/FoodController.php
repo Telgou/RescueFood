@@ -24,23 +24,27 @@ class FoodController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'restaurant_id' => 'required|exists:restaurants,id',
             'name' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'expired_date' => 'required|date|after:today',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $user = Auth::user();
+        if (!$user->restaurant_id) {
+            return redirect()->back()->with('error', 'You are not associated with any restaurant.');
+        }
+
         $food = new Food;
-        $food->restaurant_id = $request->restaurant_id;
+        $food->restaurant_id = $user->restaurant_id;
         $food->name = $request->name;
         $food->description = $request->description;
-        $food->price = $request->price;
         $food->image = $request->file('image')->store('foods', 'public');
+        $food->expired_date = $request->expired_date;
         $food->save();
 
         return redirect()->route('food.index')->with('success', 'Food item has been added successfully.');
@@ -61,22 +65,26 @@ class FoodController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'restaurant_id' => 'required|exists:restaurants,id',
             'name' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'expired_date' => 'required|date|after:today',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $user = Auth::user();
         $food = Food::findOrFail($id);
-        $food->restaurant_id = $request->restaurant_id;
+
+        if ($food->restaurant_id !== $user->restaurant_id) {
+            return redirect()->back()->with('error', 'You are not authorized to update this food item.');
+        }
+
         $food->name = $request->name;
         $food->description = $request->description;
-        $food->price = $request->price;
+        $food->expired_date = $request->expired_date;
         
         if ($request->hasFile('image')) {
             $food->image = $request->file('image')->store('foods', 'public');
@@ -89,7 +97,13 @@ class FoodController extends Controller
 
     public function destroy($id)
     {
+        $user = Auth::user();
         $food = Food::findOrFail($id);
+
+        if ($food->restaurant_id !== $user->restaurant_id) {
+            return redirect()->back()->with('error', 'You are not authorized to delete this food item.');
+        }
+
         $food->delete();
 
         return redirect()->route('food.index')->with('success', 'Food item has been deleted successfully.');

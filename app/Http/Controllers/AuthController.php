@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
   
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-  use App\Models\Association;
+use App\Models\Association;
+
 class AuthController extends Controller
 {
     public function register()
@@ -16,36 +18,54 @@ class AuthController extends Controller
         return view('auth/register');
     }
   
-public function registerSave(Request $request)
-{
-    Validator::make($request->all(), [
-        'name' => 'required',
-        'no_hp' => 'required',
-        'tanggal_lahir' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|confirmed',
-        'nom_association' => 'required', // Validation pour le nom de l'association
-    ])->validate();
+    public function registerSave(Request $request)
+    {
+        Validator::make($request->all(), [
+            'name' => 'required',
+            'no_hp' => 'required',
+            'tanggal_lahir' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+            'nom_association' => 'required_without:nom_restaurant',
+            'nom_restaurant' => 'required_without:nom_association',
+        ])->validate();
 
-    // Créer l'association
-    $association = Association::create([
-        'nom' => $request->nom_association,
-       
-    ]);
+        $isRestaurant = $request->has('isRestaurant') && $request->isRestaurant === 'on';
 
-    // Créer l'utilisateur
-    $user = User::create([
-        'name' => $request->name,
-        'no_hp' => $request->no_hp,
-        'tanggal_lahir' => $request->tanggal_lahir,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'association_id' => $association->id, // Associer l'utilisateur à l'association
-        'role' => 'customer',
-    ]);
+        // Create the user first
+        $user = User::create([
+            'name' => $request->name,
+            'no_hp' => $request->no_hp,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $isRestaurant ? 'restaurant' : 'customer',
+        ]);
 
-    return redirect()->route('login');
-}
+        if ($isRestaurant) {
+            // Create the restaurant and associate it with the user
+            $restaurant = Restaurant::create([
+                'name' => $request->nom_restaurant,
+                'user_id' => $user->id,
+                // Add other restaurant fields as needed
+            ]);
+
+            // Update the user with the restaurant_id
+            $user->update(['restaurant_id' => $restaurant->id]);
+        } else {
+            // Create the association and associate it with the user
+            $association = Association::create([
+                'nom' => $request->nom_association,
+                'user_id' => $user->id,
+                // Add other association fields as needed
+            ]);
+
+            // Update the user with the association_id
+            $user->update(['association_id' => $association->id]);
+        }
+
+        return redirect()->route('login');
+    }
 
     public function login()
     {

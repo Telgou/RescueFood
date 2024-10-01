@@ -12,6 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
@@ -185,3 +186,6 @@ Route::get('/mes-demandes', [DemandeController::class, 'mesDemandes'])->name('de
 Route::delete('/demandes/{id}', [DemandeController::class, 'destroy'])->name('demandes.destroy');
 Route::get('/demandes/{id}/edit', [DemandeController::class, 'edit'])->name('demandes.edit');
 Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demandes.update');
+
+Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');

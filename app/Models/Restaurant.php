@@ -16,6 +16,7 @@ class Restaurant extends Model
         'total_food',
         'opening_hours',
         'donation_history',
+        'user_id',
     ];
 
     public function food()
