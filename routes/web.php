@@ -16,6 +16,10 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+
+use App\Http\Controllers\EvenementCollecteController;
+use App\Http\Controllers\NotificationController;
+
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\StocksController;
 
@@ -206,6 +210,16 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
 
+
+// Routes pour EvenementCollecte
+Route::middleware(['auth'])->group(function () {
+    Route::resource('evenement-collecte', EvenementCollecteController::class);
+});
+
+// Routes pour Notification
+Route::middleware(['auth'])->group(function () {
+    Route::resource('notification', NotificationController::class);
+
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
 Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'])->name('customer.profil.update');
@@ -213,4 +227,5 @@ Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/list_demandes', [DemandeController::class, 'index'])->name('list_demandes.index');
     Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
+
 });

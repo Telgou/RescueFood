@@ -24,6 +24,23 @@
                     List of Users
                 </a>
             </li>
+
+                                    <!-- Lien vers EvenementCollecte -->
+                                    <li class="sidebar-item {{ Request::is('evenement-collecte*') ? 'active' : '' }}">
+                <a href="{{ url('evenement-collecte') }}" class="sidebar-link">
+                    <i class="fa-solid fa-calendar pe-2"></i>
+                    Événements de Collecte
+                </a>
+            </li>
+
+            <!-- Lien vers Notification -->
+            <li class="sidebar-item {{ Request::is('notification*') ? 'active' : '' }}">
+                <a href="{{ url('notification') }}" class="sidebar-link">
+                    <i class="fa-solid fa-bell pe-2"></i>
+                    Notifications
+                </a>
+            </li>
+
 <li class="sidebar-item {{ Request::is('admin/list_demandes') ? 'active' : '' }}">
     <a href="{{ url('admin/list_demandes') }}" class="sidebar-link">
         <i class="fa-solid fa-folder pe-2"></i>
