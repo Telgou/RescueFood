@@ -12,15 +12,18 @@ return new class extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->string('type')->after('id'); // Ou utilisez la position souhaitée
+            if (!Schema::hasColumn('notifications', 'type')) {
+                $table->string('type')->after('id'); // Only add if the 'type' column doesn't exist
+            }
         });
     }
-    
+
     public function down()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->dropColumn('type');
+            if (Schema::hasColumn('notifications', 'type')) {
+                $table->dropColumn('type');
+            }
         });
     }
-    
 };
