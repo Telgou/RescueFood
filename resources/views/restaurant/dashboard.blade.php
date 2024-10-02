@@ -38,18 +38,8 @@
                             Menu
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('restaurant/stocks')}}" class="sidebar-link">
-                            <i class="fa-solid fa-archive pe-2"></i>
-                            Stock
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('restaurant/orders')}}" class="sidebar-link">
-                            <i class="fa-solid fa-comment-dollar pe-2"></i>
-                            Pemesanan
-                        </a>
-                    </li>
+                   
+            
                 </ul>
             </div>
         </aside>
