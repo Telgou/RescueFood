@@ -16,6 +16,9 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\StocksController;
+
 
 
 /*  
@@ -32,6 +35,12 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 Route::get('/', function () {
     return view('landing_page.home');
 });
+
+Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
+
+Route::resource('stockss', StocksController::class);
+
+Route::resource('categories', CategoriesController::class);
 
 Route::get('/menu', [MenuController::class, 'landingPage']); 
 Route::get('/promo', [PromoController::class, 'landingPage']);

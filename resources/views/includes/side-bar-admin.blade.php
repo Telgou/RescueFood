@@ -30,6 +30,18 @@
         List Demands
     </a>
 </li>
+<li class="sidebar-item">
+    <a href="{{ route('stockss.index') }}" class="sidebar-link">
+        <i class="fa-solid fa-newspaper pe-2"></i>
+        Stock
+    </a>
+</li>
+<li class="sidebar-item">
+    <a href="{{ route('categories.index') }}" class="sidebar-link">
+        <i class="fa-solid fa-newspaper pe-2"></i>
+        Categories
+    </a>
+</li>
 
         </ul>
     </div>
