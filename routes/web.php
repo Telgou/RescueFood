@@ -16,6 +16,8 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\ConsigneController;
+use App\Http\Controllers\FeedBackController;
 
 
 /*  
@@ -38,6 +40,7 @@ Route::get('/promo', [PromoController::class, 'landingPage']);
 Route::get('/menu_customer', [MenuController::class, 'landingPageCustomer']); 
 Route::post('/add_to_cart', [MenuController::class, 'addToCart']); 
 Route::get('/promo_customer', [PromoController::class, 'landingPageCustomer']);
+
 
 
 
@@ -205,3 +208,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/list_demandes', [DemandeController::class, 'index'])->name('list_demandes.index');
     Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
 });
+
+Route::get('consignes', [ConsigneController::class, 'index'])->name('consignes.index');       
+Route::get('consignes/create', [ConsigneController::class, 'create'])->name('consignes.create');  
+Route::post('consignes', [ConsigneController::class, 'store'])->name('consignes.store');         
+Route::get('consignes/{consigne}', [ConsigneController::class, 'show'])->name('consignes.show');  
+Route::get('consignes/{consigne}/edit', [ConsigneController::class, 'edit'])->name('consignes.edit');  
+Route::put('consignes/{consigne}/update', [ConsigneController::class, 'update'])->name('consignes.update');   
+Route::delete('consignes/{consigne}/delete', [ConsigneController::class, 'destroy'])->name('consignes.destroy');  
+
+
+Route::get('feedbacks', [FeedBackController::class, 'index'])->name('feedbacks.index');        
+Route::get('feedbacks/create', [FeedBackController::class, 'create'])->name('feedbacks.create');  
+Route::post('feedbacks', [FeedBackController::class, 'store'])->name('feedbacks.store');         
+Route::get('feedbacks/{feedback}', [FeedBackController::class, 'show'])->name('feedbacks.show');  
+Route::get('feedbacks/{feedback}/edit', [FeedBackController::class, 'edit'])->name('feedbacks.edit');  
+Route::put('feedbacks/{feedback}/update', [FeedBackController::class, 'update'])->name('feedbacks.update');  
+Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destroy'])->name('feedbacks.destroy');  
