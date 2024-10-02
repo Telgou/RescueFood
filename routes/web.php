@@ -219,6 +219,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes pour Notification
 Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
+    });
 
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
