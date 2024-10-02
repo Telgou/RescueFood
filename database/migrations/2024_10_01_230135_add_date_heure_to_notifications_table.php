@@ -9,14 +9,18 @@ class AddDateHeureToNotificationsTable extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->dateTime('date_heure')->after('type'); // Ajoute la colonne date_heure
+            if (!Schema::hasColumn('notifications', 'date_heure')) {
+                $table->dateTime('date_heure')->after('type'); // Only add if it doesn't exist
+            }
         });
     }
 
     public function down()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->dropColumn('date_heure'); // Supprime la colonne date_heure si besoin
+            if (Schema::hasColumn('notifications', 'date_heure')) {
+                $table->dropColumn('date_heure'); // Remove if it exists
+            }
         });
     }
 }
