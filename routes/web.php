@@ -16,8 +16,13 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+
 use App\Http\Controllers\EvenementCollecteController;
 use App\Http\Controllers\NotificationController;
+
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\StocksController;
+
 
 
 /*  
@@ -34,6 +39,12 @@ use App\Http\Controllers\NotificationController;
 Route::get('/', function () {
     return view('landing_page.home');
 });
+
+Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
+
+Route::resource('stockss', StocksController::class);
+
+Route::resource('categories', CategoriesController::class);
 
 Route::get('/menu', [MenuController::class, 'landingPage']); 
 Route::get('/promo', [PromoController::class, 'landingPage']);
@@ -154,8 +165,11 @@ Route::get('/dashboard', function (){
 
 Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
 Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
-Route::get('/verify_restaurant', [RestaurantController::class, 'index'])->name('verify_restaurant');
+Route::get('/verify_restaurant', [RestaurantController::class, 'indexunverified'])->name('verify_restaurant');
+Route::post('/verify_restaurant/{id}', [RestaurantController::class, 'accept'])->name('restaurant.accept');
 Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
+
+
 
 Route::get('/lihat_data_restaurant', function (){
     return view('admin.list_restaurant.show');
@@ -196,6 +210,7 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
 
+
 // Routes pour EvenementCollecte
 Route::middleware(['auth'])->group(function () {
     Route::resource('evenement-collecte', EvenementCollecteController::class);
@@ -204,4 +219,13 @@ Route::middleware(['auth'])->group(function () {
 // Routes pour Notification
 Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
+
+Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
+Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
+Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'])->name('customer.profil.update');
+// Routes pour gérer les demandes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/list_demandes', [DemandeController::class, 'index'])->name('list_demandes.index');
+    Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
+
 });

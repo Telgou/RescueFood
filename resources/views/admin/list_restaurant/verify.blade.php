@@ -28,8 +28,10 @@
                             <td>{{ $restaurant->address }}</td>
                             <td>{{ $restaurant->status ?? 'Pending' }}</td>
                             <td>
-                                <a href="{{ route('admin.list_restaurant.show', $restaurant->id) }}"
-                                    class="btn btn-warning btn-sm">Check Data</a>
+                                <form action="{{ route('restaurant.accept', $restaurant->id) }}" method="POST" style="display:inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning btn-sm">Accept</button>
+                                </form>
                                 <form action="{{ route('restaurant.destroy', $restaurant->id) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')

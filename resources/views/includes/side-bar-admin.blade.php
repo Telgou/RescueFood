@@ -21,27 +21,10 @@
             <li class="sidebar-item">
                 <a href="{{ url('data_customer') }}" class="sidebar-link">
                     <i class="fa-solid fa-user pe-2"></i>
-                    Customer Account Data
+                    List of Users
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="{{ url('daftar-toko') }}" class="sidebar-link">
-                    <i class="fa-solid fa-comment-dollar pe-2"></i>
-                    Store Account Data
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="{{ url('promos') }}" class="sidebar-link">
-                    <i class="fa-solid fa-comment-dollar pe-2"></i>
-                    Promo
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="{{ route('foods.index') }}" class="sidebar-link">
-                    <i class="fa-solid fa-newspaper pe-2"></i>
-                    Food
-                </a>
-            </li>
+
                                     <!-- Lien vers EvenementCollecte -->
                                     <li class="sidebar-item {{ Request::is('evenement-collecte*') ? 'active' : '' }}">
                 <a href="{{ url('evenement-collecte') }}" class="sidebar-link">
@@ -57,6 +40,26 @@
                     Notifications
                 </a>
             </li>
+
+<li class="sidebar-item {{ Request::is('admin/list_demandes') ? 'active' : '' }}">
+    <a href="{{ url('admin/list_demandes') }}" class="sidebar-link">
+        <i class="fa-solid fa-folder pe-2"></i>
+        List Demands
+    </a>
+</li>
+<li class="sidebar-item">
+    <a href="{{ route('stockss.index') }}" class="sidebar-link">
+        <i class="fa-solid fa-newspaper pe-2"></i>
+        Stock
+    </a>
+</li>
+<li class="sidebar-item">
+    <a href="{{ route('categories.index') }}" class="sidebar-link">
+        <i class="fa-solid fa-newspaper pe-2"></i>
+        Categories
+    </a>
+</li>
+
         </ul>
     </div>
 </aside>

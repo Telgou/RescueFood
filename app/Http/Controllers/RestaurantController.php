@@ -12,12 +12,13 @@ class RestaurantController extends Controller
     public function edit(Restaurant $restaurant)
     {
         $restaurant = auth()->user()->restaurant;
+        \Log::info('Restaurant data:', $restaurant->toArray());
         return view('restaurant.edit', compact('restaurant'));
     }
 
-    public function update(Request $request, Restaurant $restaurant)
+    public function update(Request $request)
     {
-        \Log::info('Restaurant:', $restaurant->toArray());
+        \Log::info('Request data:', $request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
@@ -25,88 +26,78 @@ class RestaurantController extends Controller
             'cuisine_type' => 'nullable|string|max:255',
             'opening_time' => 'nullable|date_format:H:i',
             'closing_time' => 'nullable|date_format:H:i',
-            'user_id' => $restaurant->user_id,
         ]);
-
         \Log::info('Validated data:', $validated);
 
+        $restaurant = auth()->user()->restaurant;
+
+        // Update the restaurant attributes directly
         foreach ($validated as $key => $value) {
-            $restaurant->$key = $value;
+            $restaurant->{$key} = $value;
         }
 
-        $saved = $restaurant->save();
+        \Log::info('Restaurant data before save:', $restaurant->toArray());
+        \Log::info('Is restaurant dirty?', ['dirty' => $restaurant->isDirty()]);
+        \Log::info('Changed attributes:', $restaurant->getDirty());
 
-        \Log::info('Save result:', ['saved' => $saved]);
-        \Log::info('Updated restaurant:', $restaurant->toArray());
-
-        if ($saved) {
-            return redirect()->route('restaurant.edit', $restaurant)
+        if ($restaurant->isDirty()) {
+            $restaurant->save();
+            \Log::info('Restaurant data after save:', $restaurant->fresh()->toArray());
+            return redirect()->route('restaurant.edit')
                 ->with('success', 'Restaurant updated successfully');
         } else {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Failed to update restaurant. Please try again.');
+                ->with('error', 'No changes were made to the restaurant.');
         }
     }
 
-    public function index()
+    public function indexunverified()
     {
-        $restaurants = Restaurant::where('status', 'PENDING')->get();
-        \Log::info('Restaurants:', $restaurants->toArray());
+        $restaurants = Restaurant::where('status', 'PENDING')
+            ->with('user')
+            ->get();
+        
         return view('admin.list_restaurant.verify', compact('restaurants'));
     }
 
-public function show($id)
+    public function show($id)
     {
         $restaurant = Restaurant::where('status', 'PENDING')->findOrFail($id);
         return view('admin.list_restaurant.show', compact('restaurant'));
     }
-public function accept($id)
+
+    public function accept($id)
     {
         $restaurant = Restaurant::findOrFail($id);
 
-
         $restaurant->status = 'ACCEPT';
         $restaurant->save();
+        \Log::info('Restaurant status updated:', $restaurant->toArray());
 
-
-        $user = User::where('name', $restaurant->owner_name)->first();
-        if ($user) {
-            $user->role = 'restaurant';  
-            $user->save();
-        }
-
-        return redirect()->route('admin.dashboard')->with('success', 'Restaurant successfully accepted and user role updated.');
+        $restaurants = Restaurant::where('status', 'PENDING')->with('user')->get();
+        return view('admin.list_restaurant.verify', compact('restaurants'))
+            ->with('success', 'Restaurant successfully accepted and user role updated.');
     }
-public function create()
+
+    public function create()
     {
         $user = auth()->user();
         $restaurant = Restaurant::where('user_id', $user->id)->first();
         return view('menus.create', compact('restaurant'));
     }
 
-public function listRestaurantNames()
+    public function destroy($id)
     {
-        $restaurants = Restaurant::all(['restaurant_name']);
-        return view('menus.create', compact('restaurants'));
+        $restaurant = Restaurant::findOrFail($id);
+        
+        $user = User::where('id', $restaurant->user_id)->first();
+        if ($user) {
+            $user->delete();
+        }
+        
+        $restaurant->delete();
+        
+        return redirect()->route('admin.dashboard')->with('success', 'Restaurant and associated user account have been deleted.');
     }
-public function dataRestaurantNames()
-    {
-        $restaurants = Restaurant::where('status', 'ACCEPT')->get();
-        return view('admin.daftar_restaurant.index', compact('restaurants'));
-    }
-
-public function destroy($id)
-{
-    $restaurant = Restaurant::findOrFail($id);
-    
-    $user = User::where('id', $restaurant->user_id)->first();
-    if ($user) {
-        $user->delete();
-    }
-    
-    $restaurant->delete();
-    
-    return redirect()->route('admin.dashboard')->with('success', 'Restaurant and associated user account have been deleted.');
-}
 }
