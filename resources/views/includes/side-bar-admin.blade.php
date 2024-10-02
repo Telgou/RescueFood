@@ -42,6 +42,21 @@
                     Food
                 </a>
             </li>
+                                    <!-- Lien vers EvenementCollecte -->
+                                    <li class="sidebar-item {{ Request::is('evenement-collecte*') ? 'active' : '' }}">
+                <a href="{{ url('evenement-collecte') }}" class="sidebar-link">
+                    <i class="fa-solid fa-calendar pe-2"></i>
+                    Événements de Collecte
+                </a>
+            </li>
+
+            <!-- Lien vers Notification -->
+            <li class="sidebar-item {{ Request::is('notification*') ? 'active' : '' }}">
+                <a href="{{ url('notification') }}" class="sidebar-link">
+                    <i class="fa-solid fa-bell pe-2"></i>
+                    Notifications
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

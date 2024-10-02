@@ -16,6 +16,8 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\EvenementCollecteController;
+use App\Http\Controllers\NotificationController;
 
 
 /*  
@@ -193,3 +195,13 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
+
+// Routes pour EvenementCollecte
+Route::middleware(['auth'])->group(function () {
+    Route::resource('evenement-collecte', EvenementCollecteController::class);
+});
+
+// Routes pour Notification
+Route::middleware(['auth'])->group(function () {
+    Route::resource('notification', NotificationController::class);
+});
