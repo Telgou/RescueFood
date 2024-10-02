@@ -4,15 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\FeedBack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class FeedBackController extends Controller
 {
     
     public function index()
     {
-        $feedbacks = FeedBack::all();
+        $id = Auth::user()->id;
+    
+        // Use the query builder to apply the `where` condition before retrieving the data
+        $feedbacks = FeedBack::where('restaurant_id', $id)
+        ->join('associations', 'associations.id', '=', 'feed_backs.association_id')
+        ->get();
+        
+        // Debugging the variable
+        // var_dump($feedbacks);
+    
         return view('feedbacks.index', compact('feedbacks'));
     }
+    
 
     
     public function create()

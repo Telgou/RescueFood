@@ -50,6 +50,18 @@
                             Pemesanan
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="{{url('feedbacks')}}" class="sidebar-link">
+                            <i class="fa-solid fa-comment-dollar pe-2"></i>
+                            Feedbacks
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url('restaurant/orders')}}" class="sidebar-link">
+                            <i class="fa-solid fa-comment-dollar pe-2"></i>
+                            Consignes
+                        </a>
+                    </li>
                 </ul>
             </div>
         </aside>
