@@ -24,7 +24,7 @@ class StockController extends Controller
             $stocks = collect();
         }
 
-        return view('stocks.index', compact('stocks'));
+         return view('stocks.index', compact('stocks'));
     }
 
     public function create()
