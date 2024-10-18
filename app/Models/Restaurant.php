@@ -50,4 +50,13 @@ class Restaurant extends Model
     {
         return json_decode($value, true);
     }
+    public function consignes()
+    {
+        return $this->hasMany(Consigne::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(FeedBack::class);
+    }
 }

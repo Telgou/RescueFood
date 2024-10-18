@@ -33,6 +33,10 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ url('/') }}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('assosfeedback.index') }}">Feedback</a> <!-- Updated Feedback link -->
+                    </li>
+                    
  <li class="nav-item">
     <a class="nav-link" href="{{ route('demandes.create') }}"> demands</a>
 </li>

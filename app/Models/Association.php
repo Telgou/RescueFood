@@ -23,6 +23,16 @@ class Association extends Model
         return $this->hasMany(Demande::class); // Assurez-vous que le modèle Demande existe et est correctement défini
     }
 
+    public function consignes()
+    {
+        return $this->hasMany(Consigne::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(FeedBack::class);
+    }
+
   
 }
 
