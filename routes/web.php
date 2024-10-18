@@ -18,6 +18,7 @@ use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\ConsigneController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\AssociationController;
 
 
 /*  
@@ -225,3 +226,6 @@ Route::get('feedbacks/{feedback}', [FeedBackController::class, 'show'])->name('f
 Route::get('feedbacks/{feedback}/edit', [FeedBackController::class, 'edit'])->name('feedbacks.edit');  
 Route::put('feedbacks/{feedback}/update', [FeedBackController::class, 'update'])->name('feedbacks.update');  
 Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destroy'])->name('feedbacks.destroy');  
+
+Route::get('/associations', [AssociationController::class, 'index']);
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
