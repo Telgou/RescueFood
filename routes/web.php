@@ -20,6 +20,13 @@ use App\Http\Controllers\ConsigneController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\AssociationController;
 
+use App\Http\Controllers\EvenementCollecteController;
+use App\Http\Controllers\NotificationController;
+
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\StocksController;
+
+
 
 /*  
 |--------------------------------------------------------------------------
@@ -35,6 +42,12 @@ use App\Http\Controllers\AssociationController;
 Route::get('/', function () {
     return view('landing_page.home');
 });
+
+Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
+
+Route::resource('stockss', StocksController::class);
+
+Route::resource('categories', CategoriesController::class);
 
 Route::get('/menu', [MenuController::class, 'landingPage']); 
 Route::get('/promo', [PromoController::class, 'landingPage']);
@@ -200,6 +213,17 @@ Route::put('/demandes/{id}', [DemandeController::class, 'update'])->name('demand
 
 Route::get('/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::put('/update', [RestaurantController::class, 'update'])->name('restaurant.update');
+
+
+// Routes pour EvenementCollecte
+Route::middleware(['auth'])->group(function () {
+    Route::resource('evenement-collecte', EvenementCollecteController::class);
+});
+
+// Routes pour Notification
+Route::middleware(['auth'])->group(function () {
+    Route::resource('notification', NotificationController::class);
+    });
 
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
