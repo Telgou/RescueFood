@@ -229,3 +229,5 @@ Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destro
 
 Route::get('/associations', [AssociationController::class, 'index']);
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::get('/assosfeedback', [FeedBackController::class, 'assosFeedback'])->name('assosfeedback.index');
+

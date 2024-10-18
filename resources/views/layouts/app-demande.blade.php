@@ -38,13 +38,18 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('customer.dashboard') }}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('assosfeedback.index') }}">Feedback</a> <!-- Updated Feedback link -->
+                    </li>
+                    
                     <!-- Lien vers le formulaire de création de demande -->
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('demandes.create') }}"> demands</a>
-</li>
-<li class="nav-item">
-        <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
-    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('demandes.create') }}"> demands</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
+                    </li>
+                   
                   
                  
                     @auth
@@ -54,7 +59,7 @@
                             {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-<li><a class="dropdown-item" href="{{ route('customer.profil', ['id' => auth()->user()->id]) }}">Profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('customer.profil', ['id' => auth()->user()->id]) }}">Profil</a></li>
                             <li><a class="dropdown-item" href="{{ url('/customer/orders')}}">Notifications</a></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
