@@ -9,7 +9,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>id</th>
+                <th>id------</th>
                 <th>note</th>
                 <th>comment</th>
                 <th>from</th>
