@@ -1,150 +1,96 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+@extends('layouts.app-admin')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coffside Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" />
-    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ asset('admin_assets2/css/style.css') }}" />
-</head>
+@section('content')
+<div class="mb-3">
+    <h4>Admin Dashboard</h4>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6 d-flex">
+        <h2>Welcome Back, {{ Auth::user()->name }}</h2>
+    </div>
 
-<body>
-    <div class="wrapper">
-        <aside id="sidebar" class="js-sidebar">
-            <!-- Content For Sidebar -->
-            <div class="h-100">
-                <div class="sidebar-logo">
-                    <a href="#">Mitra Dashboard</a>
-                </div>
-                <ul class="sidebar-nav">
-                    <li class="sidebar-header">Navigation Sidebar</li>
-                    <li class="sidebar-item">
-                        <a href="{{url('mitra/dashboard')}}" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('menus')}}" class="sidebar-link active">
-                            <i class="fa-solid fa-hamburger pe-2"></i>
-                            Menu
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('stocks')}}" class="sidebar-link">
-                            <i class="fa-solid fa-archive pe-2"></i>
-                            Stock
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('orders')}}" class="sidebar-link">
-                            <i class="fa-solid fa-comment-dollar pe-2"></i>
-                            Pemesanan
-                        </a>
-                    </li>
-                </ul>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="my-4">Stock Listing</h1>
             </div>
-        </aside>
-        <div class="main">
-            <nav class="navbar navbar-expand px-3 border-bottom">
-                <button class="btn" id="sidebar-toggle" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse navbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-                                <img src="{{ asset('images/profile.jpg') }}" class="avatar img-fluid rounded" alt="" />
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <main class="content px-3 py-2">
-                <div class="container-fluid">
-                    <div class="container mt-4 card card-body">
-                        <h2>Daftar Stocks</h2>
-                        <div class="mb-5 text-end">
-                            <a href="{{ route('stocks.create') }}" class="btn btn-success">Tambah Stock Menu Baru</a>
-                        </div>
+            <div class="text-end mb-3">
+                <a href="{{ route('stockss.export') }}" class="btn btn-success btn-sm">Download Excel</a> <!-- Download button -->
 
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Menu</th>
-                                    <th>Gambar</th>
-                                    <th>Jumlah Stock</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($stocks as $stock)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        <strong>{{ $stock->menu->nama_menu }}</strong><br>
-                                    </td>
-                                    <td>
-                                        <img src="{{ asset($stock->menu->gambar_menu) }}"
-                                            alt="{{ $stock->menu->nama_menu }}" style="max-width: 100px;">
-                                    </td>
-                                    <td>{{ $stock->quantity }}</td>
-                                    <td>
-                                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-warning">Tambah
-                                            Stock</a>
-                                        <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
-                                            style="display:inline"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
-                                    </td>
+                <a href="{{ route('stockss.create') }}" class="btn btn-info btn-sm">Add Stock</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Food</th>
+                            <th>Expiration Date</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($stocks as $stock)
+                            <tr>
+                                <td>{{ $stock->id }}</td>
+                                <td>{{ $stock->food }}</td>
+                                <td>{{ $stock->expiration_date }}</td>
+                                <td>{{ $stock->quantity }}</td>
+                                <td>{{ $stock->location }}</td>
+                                <td>{{ $stock->category->type ?? 'No Category' }}</td>
+                                <td>
+                                    <a href="{{ route('stockss.show', $stock->id) }}" class="btn btn-info btn-sm">Details</a>
+                                    <a href="{{ route('stockss.edit', $stock->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('stockss.destroy', $stock->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this stock?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mt-3">
-                            @if($stocks->previousPageUrl())
-                            <a href="{{ $stocks->previousPageUrl() }}" class="btn btn-primary">Previous</a>
-                            @endif
+                <!-- Chart.js Statistics -->
+                <div class="mt-5">
+                    <h4>Stock Statistics by Product</h4>
+                    <canvas id="stockChart"></canvas>
+                </div>
 
-                            @if($stocks->nextPageUrl())
-                            <a href="{{ $stocks->nextPageUrl() }}" class="btn btn-primary">Next</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </main>
-            <a href="#" class="theme-toggle">
-                <i class="fa-regular fa-moon"></i>
-                <i class="fa-regular fa-sun"></i>
-            </a>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row text-muted">
-                        <div class="col-6 text-start">
-                            <p class="mb-0">
-                                <a href="#" class="text-muted">
-                                    <strong>Coffside</strong>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('admin_assets2/js/script.js')}}"></script>
-</body>
+</div>
 
-</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const stockData = {
+        labels: @json($stocks->pluck('food')),
+        datasets: [{
+            label: 'Quantity',
+            data: @json($stocks->pluck('quantity')),
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+        
+    };
+
+    const stockChart = new Chart(ctx, {
+        type: 'bar',
+        data: stockData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+@endsection
