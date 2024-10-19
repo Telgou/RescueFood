@@ -42,12 +42,14 @@ use App\Http\Controllers\StocksController;
 Route::get('/', function () {
     return view('landing_page.home');
 });
-
-Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
 
 Route::resource('stockss', StocksController::class);
 
 Route::resource('categories', CategoriesController::class);
+});
+
 
 Route::get('/menu', [MenuController::class, 'landingPage']); 
 Route::get('/promo', [PromoController::class, 'landingPage']);
