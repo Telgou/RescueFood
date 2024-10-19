@@ -3,7 +3,7 @@
 @section('content')
 <main class="content px-3 py-2">
     <div class="container mt-5 card card-body">
-        <h1>Créer un nouvel événement de collecte</h1>
+        <h1>Create a New Collection Event</h1>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -18,27 +18,42 @@
         <form action="{{ route('evenement-collecte.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" required>
+                <label for="nom">Name</label>
+                <input type="text" class="form-control @error('nom') is-invalid @enderror" id="nom" name="nom" value="{{ old('nom') }}" required>
+                @error('nom')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" name="date" required>
+                <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}" required>
+                @error('date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="lieu">Lieu</label>
-                <input type="text" class="form-control" id="lieu" name="lieu" required>
+                <label for="lieu">Location</label>
+                <input type="text" class="form-control @error('lieu') is-invalid @enderror" id="lieu" name="lieu" value="{{ old('lieu') }}" required>
+                @error('lieu')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="type_nourriture">Type de nourriture</label>
-                <input type="text" class="form-control" id="type_nourriture" name="type_nourriture" required>
+                <label for="type_nourriture">Type of Food</label>
+                <input type="text" class="form-control @error('type_nourriture') is-invalid @enderror" id="type_nourriture" name="type_nourriture" value="{{ old('type_nourriture') }}" required>
+                @error('type_nourriture')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="organisateur">Organisateur</label>
-                <input type="text" class="form-control" id="organisateur" name="organisateur" required>
+                <label for="organisateur">Organizer</label>
+                <input type="text" class="form-control @error('organisateur') is-invalid @enderror" id="organisateur" name="organisateur" value="{{ old('organisateur') }}" required>
+                @error('organisateur')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Créer</button>
-            <a href="{{ route('evenement-collecte.index') }}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="{{ route('evenement-collecte.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </main>

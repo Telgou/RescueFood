@@ -3,7 +3,7 @@
 @section('content')
 <main class="content px-3 py-2">
     <div class="container mt-5 card card-body">
-        <h1>Modifier l'événement de collecte : {{ $evenement->nom }}</h1>
+        <h1>Edit Collection Event: {{ $evenement->nom }}</h1>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -19,27 +19,42 @@
             @csrf
             @method('PUT')
             <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="{{ old('nom', $evenement->nom) }}" required>
+                <label for="nom">Name</label>
+                <input type="text" class="form-control @error('nom') is-invalid @enderror" id="nom" name="nom" value="{{ old('nom', $evenement->nom) }}" required>
+                @error('nom')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ old('date', $evenement->date) }}" required>
+                <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date', $evenement->date) }}" required>
+                @error('date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="lieu">Lieu</label>
-                <input type="text" class="form-control" id="lieu" name="lieu" value="{{ old('lieu', $evenement->lieu) }}" required>
+                <label for="lieu">Location</label>
+                <input type="text" class="form-control @error('lieu') is-invalid @enderror" id="lieu" name="lieu" value="{{ old('lieu', $evenement->lieu) }}" required>
+                @error('lieu')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="type_nourriture">Type de nourriture</label>
-                <input type="text" class="form-control" id="type_nourriture" name="type_nourriture" value="{{ old('type_nourriture', $evenement->type_nourriture) }}" required>
+                <label for="type_nourriture">Type of Food</label>
+                <input type="text" class="form-control @error('type_nourriture') is-invalid @enderror" id="type_nourriture" name="type_nourriture" value="{{ old('type_nourriture', $evenement->type_nourriture) }}" required>
+                @error('type_nourriture')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="organisateur">Organisateur</label>
-                <input type="text" class="form-control" id="organisateur" name="organisateur" value="{{ old('organisateur', $evenement->organisateur) }}" required>
+                <label for="organisateur">Organizer</label>
+                <input type="text" class="form-control @error('organisateur') is-invalid @enderror" id="organisateur" name="organisateur" value="{{ old('organisateur', $evenement->organisateur) }}" required>
+                @error('organisateur')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Modifier</button>
-            <a href="{{ route('evenement-collecte.index') }}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <a href="{{ route('evenement-collecte.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </main>

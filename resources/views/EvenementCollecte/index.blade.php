@@ -4,7 +4,7 @@
 <main class="content px-3 py-2">
     <div class="container mt-5 card card-body">
         <div class="container mt-4">
-            <h1>Liste des événements de collecte</h1>
+            <h1>Collection Event List</h1>
 
             @if(session('success'))
                 <div class="alert alert-success">
@@ -12,16 +12,16 @@
                 </div>
             @endif
 
-            <a href="{{ route('evenement-collecte.create') }}" class="btn btn-primary mb-3">Créer un nouvel événement</a>
+            <a href="{{ route('evenement-collecte.create') }}" class="btn btn-primary mb-3">Create a New Event</a>
 
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nom</th>
+                        <th>Name</th>
                         <th>Date</th>
-                        <th>Lieu</th>
-                        <th>Type de nourriture</th>
-                        <th>Organisateur</th>
+                        <th>Location</th>
+                        <th>Food Type</th>
+                        <th>Organizer</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -34,11 +34,11 @@
                         <td>{{ $evenement->type_nourriture }}</td>
                         <td>{{ $evenement->organisateur }}</td>
                         <td>
-                            <a href="{{ route('evenement-collecte.edit', $evenement->id) }}" class="btn btn-warning">Modifier</a>
+                            <a href="{{ route('evenement-collecte.edit', $evenement->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('evenement-collecte.destroy', $evenement->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?')">Delete</button>
                             </form>
                         </td>
                     </tr>

@@ -35,8 +35,8 @@ class NotificationController extends Controller
         $request->validate([
             'type' => 'required|string|max:255',
             'date_heure' => 'required|date',
-            'statut' => 'required|string|max:255',
-            'message' => 'required|string|max:255',
+            'statut' => 'required|string|min:3|max:50', // Longueur minimale et maximale
+            'message' => 'required|string|min:5|max:500', // Longueur minimale et maximale
             'evenement_collecte_id' => 'required|exists:evenement_collectes,id',
         ]);
 
@@ -59,8 +59,8 @@ class NotificationController extends Controller
         $request->validate([
             'type' => 'required|string|max:255',
             'date_heure' => 'required|date',
-            'statut' => 'required|string|max:255',
-            'message' => 'required|string|max:255',
+            'statut' => 'required|string|min:3|max:50', // Longueur minimale et maximale
+            'message' => 'required|string|min:5|max:500', // Longueur minimale et maximale
             'evenement_collecte_id' => 'required|exists:evenement_collectes,id',
         ]);
 

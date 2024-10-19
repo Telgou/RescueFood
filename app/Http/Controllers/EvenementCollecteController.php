@@ -32,11 +32,11 @@ class EvenementCollecteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|max:255',
-            'date' => 'required|date',
-            'lieu' => 'required|string|max:255',
-            'type_nourriture' => 'required|string|max:255',
-            'organisateur' => 'required|string|max:255',
+            'nom' => 'required|string|min:3|max:255',
+            'date' => 'required|date|after:today',
+            'lieu' => 'required|string|min:3|max:255',
+            'type_nourriture' => 'required|string|min:3|max:255',
+            'organisateur' => 'required|string|min:3|max:255',
         ]);
 
         $evenement = EvenementCollecte::create($request->all());
@@ -56,11 +56,11 @@ class EvenementCollecteController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nom' => 'required|string|max:255',
-            'date' => 'required|date',
-            'lieu' => 'required|string|max:255',
-            'type_nourriture' => 'required|string|max:255',
-            'organisateur' => 'required|string|max:255',
+            'nom' => 'required|string|min:3|max:255',
+            'date' => 'required|date|after:today',
+            'lieu' => 'required|string|min:3|max:255',
+            'type_nourriture' => 'required|string|min:3|max:255',
+            'organisateur' => 'required|string|min:3|max:255',
         ]);
 
         $evenement = EvenementCollecte::findOrFail($id);
