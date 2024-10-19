@@ -1,26 +1,31 @@
-<!-- resources/views/stocks/show.blade.php -->
+@extends('layouts.app-admin')
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Stock</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container mt-5">
-        <h2>Show Stock</h2>
-        <div>
-            <strong>Menu ID:</strong> {{ $stock->menu_id }}
-        </div>
-        <div>
-            <strong>Quantity:</strong> {{ $stock->quantity }}
-        </div>
-        <a href="{{ route('stocks.index') }}" class="btn btn-primary mt-3">Back</a>
+@section('content')
+<div class="mb-3">
+    <h4>Admin Dashboard</h4>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6 d-flex">
+        <h2>Welcome Back, {{ Auth::user()->name }}</h2>
     </div>
-</body>
 
-</html>
+    <div class="container">
+
+        <div class="card">
+            <div class="card-header">
+                <h1 class="my-4">Stock Details</h1>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Food: {{ $stock->food }}</h5>
+                <p class="card-text"><strong>Expiration Date:</strong> {{ $stock->expiration_date }}</p>
+                <p class="card-text"><strong>Quantity:</strong> {{ $stock->quantity }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ $stock->location }}</p>
+                <p class="card-text"><strong>Category:</strong> {{ $stock->category->type ?? 'No Category' }}</p>
+            </div>
+        </div>
+
+        <a href="{{ route('stockss.index') }}" class="btn btn-secondary my-4">Back to Stocks List</a>
+    </div>
+</div>
+
+@endsection
