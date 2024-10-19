@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EvenementCollecte;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use PDF;
 
 class EvenementCollecteController extends Controller
 {
@@ -75,4 +76,14 @@ class EvenementCollecteController extends Controller
         $evenement->delete();
         return redirect()->route('evenement-collecte.index')->with('success', 'Événement de collecte supprimé avec succès !');
     }
+
+    public function downloadPDF()
+    {
+        $evenements = EvenementCollecte::all(); // Récupérer tous les événements
+    
+        $pdf = PDF::loadView('EvenementCollecte.pdf', compact('evenements'));
+    
+        return $pdf->download('evenements.pdf');
+    }
+    
 }
