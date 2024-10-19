@@ -229,6 +229,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('evenements/pdf', [EvenementCollecteController::class, 'downloadPDF'])->name('evenements.pdf');
 
+Route::get('/notification/{id}/qrcode', [NotificationController::class, 'generateQrCode'])->name('notification.qrcode');
+
+
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
 Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'])->name('customer.profil.update');
