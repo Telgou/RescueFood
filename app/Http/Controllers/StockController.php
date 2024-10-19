@@ -1,85 +1,108 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
-use App\Models\Stock;
-use App\Models\Menu;
-use App\Models\Mitra;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Stocks ;
+use App\Models\Categories ;
+use App\Exports\StocksExport;
+use Maatwebsite\Excel\Facades\Excel;
 
-class StockController extends Controller
+class StocksController extends Controller
 {
+     /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $user = Auth::user();
-        $mitra = Mitra::where('name', $user->name)->first();
-
-        if ($mitra) {
-            $menus = Menu::where('nama_toko', $mitra->nama_toko)->get();
-            $stocks = Stock::whereIn('menu_id', $menus->pluck('id'))->simplePaginate(5);
-        } else {
-            $stocks = collect();
-        }
-
-         return view('stocks.index', compact('stocks'));
+        // Find the stock by ID
+        $stocks = Stocks::all();
+        return view('stockss.index', compact('stocks'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        $user = Auth::user();
-        $mitra = Mitra::where('name', $user->name)->first();
-
-        if ($mitra) {
-            $menus = Menu::where('nama_toko', $mitra->nama_toko)->get();
-        } else {
-            $menus = collect();
-        }
-
-        return view('stocks.create', compact('menus'));
+        $categories = Categories::all();
+        return view('stockss.create', compact('categories'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'menu_id' => 'required|exists:menus,id',
-            'quantity' => 'required|integer|min:0',
+        $validatedData = $request->validate([
+            'food' => 'required|regex:/^[A-Za-z].*/|max:255',
+            'expiration_date' => 'required|date|after:today',
+            'quantity' => 'required|integer|min:1',
+            'location' => 'required|max:255',
+            'category_id' => 'required|exists:categories,id',
         ]);
-
-        Stock::create($request->all());
-
-        return redirect()->route('stocks.index')->with('success', 'Stock created successfully.');
+    
+        Stocks::create($validatedData);
+    
+        return redirect()->route('stockss.index')->with('success', 'Stock created successfully.');
     }
 
-    public function show(Stock $stock)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        return view('stocks.show', compact('stock'));
+        $stock = Stocks::findOrFail($id);
+        return view('stockss.show', compact('stock'));
     }
 
-    public function edit(Stock $stock)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        $menus = Menu::all();
-        return view('stocks.edit', compact('stock', 'menus'));
+        $stock = Stocks::findOrFail($id);
+        $categories = Categories::all();
+        return view('stockss.edit', compact('stock', 'categories'));
     }
 
-    public function update(Request $request, Stock $stock)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        $request->validate([
-            'menu_id' => 'required|exists:menus,id',
-            'quantity' => 'required|integer|min:0',
+        // Validate the request
+        $validatedData = $request->validate([
+            'food' => 'required|regex:/^[A-Za-z].*/|max:255',
+            'expiration_date' => 'required|date|after:today',
+            'quantity' => 'required|integer|min:1',
+            'location' => 'required|max:255',
+            'category_id' => 'required|exists:categories,id',
         ]);
-
-        $stock->update($request->all());
-
-        return redirect()->route('stocks.index')->with('success', 'Stock updated successfully.');
+    
+        // Find the stock and update it
+        $stock = Stocks::findOrFail($id);
+        $stock->update($validatedData);
+    
+        // Redirect to the index page with a success message
+        return redirect()->route('stockss.index')->with('success', 'Stock updated successfully.');
     }
 
-    public function destroy(Stock $stock)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        $stock->delete();
-
-        return redirect()->route('stocks.index')->with('success', 'Stock deleted successfully.');
+         // Find the stock and delete it
+         $stock = Stocks::findOrFail($id);
+         $stock->delete();
+ 
+         // Redirect to the index page with a success message
+         return redirect()->route('stockss.index')->with('success', 'Stock deleted successfully.');
     }
+
+    public function export()
+{
+    return Excel::download(new StocksExport, 'stocks.xlsx');
+}
 }
