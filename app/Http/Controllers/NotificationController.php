@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\EvenementCollecte;
 use Illuminate\Http\Request;
+use Endroid\QrCode\Factory\QrCodeFactory;
+use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Http\Response;
+use Endroid\QrCode\QrCode; // Importation de la classe QrCode
+
+
 
 class NotificationController extends Controller
 {
@@ -35,8 +41,8 @@ class NotificationController extends Controller
         $request->validate([
             'type' => 'required|string|max:255',
             'date_heure' => 'required|date',
-            'statut' => 'required|string|min:3|max:50', // Longueur minimale et maximale
-            'message' => 'required|string|min:5|max:500', // Longueur minimale et maximale
+            'statut' => 'required|string|max:255',
+            'message' => 'required|string|max:255',
             'evenement_collecte_id' => 'required|exists:evenement_collectes,id',
         ]);
 
@@ -59,8 +65,8 @@ class NotificationController extends Controller
         $request->validate([
             'type' => 'required|string|max:255',
             'date_heure' => 'required|date',
-            'statut' => 'required|string|min:3|max:50', // Longueur minimale et maximale
-            'message' => 'required|string|min:5|max:500', // Longueur minimale et maximale
+            'statut' => 'required|string|max:255',
+            'message' => 'required|string|max:255',
             'evenement_collecte_id' => 'required|exists:evenement_collectes,id',
         ]);
 
@@ -78,4 +84,38 @@ class NotificationController extends Controller
 
         return redirect()->route('notification.index')->with('success', 'Notification supprimée avec succès !');
     }
+
+
+
+
+    public function generateQrCode($id)
+    {
+        $notification = Notification::findOrFail($id);
+    
+        $data = [
+            'type' => $notification->type,
+            'date_heure' => $notification->date_heure,
+            'statut' => $notification->statut,
+            'message' => $notification->message,
+            'evenement_collecte' => $notification->evenementCollecte->nom ?? 'N/A',
+        ];
+    
+        // Convertir les données en format JSON
+        $jsonData = json_encode($data);
+    
+        // Créer un QR code
+        $qrCode = QrCode::create($jsonData);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+    
+        // Créer le nom du fichier pour le téléchargement
+        $fileName = 'notification_qr_' . $notification->id . '.png';
+    
+        // Retourner la réponse avec le fichier pour le téléchargement
+        return response($result->getString(), 200)
+            ->header('Content-Type', 'image/png')
+            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+    }
+    
+
 }

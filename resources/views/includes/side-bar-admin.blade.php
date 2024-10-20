@@ -29,7 +29,7 @@
                                     <li class="sidebar-item {{ Request::is('evenement-collecte*') ? 'active' : '' }}">
                 <a href="{{ url('evenement-collecte') }}" class="sidebar-link">
                     <i class="fa-solid fa-calendar pe-2"></i>
-                    Événements de Collecte
+                    Collection Event
                 </a>
             </li>
 

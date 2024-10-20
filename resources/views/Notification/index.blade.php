@@ -40,6 +40,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this notification?')">Delete</button>
                             </form>
+                            <a href="{{ route('notification.qrcode', $notification->id) }}" class="btn btn-info">QR Code</a>
                         </td>
                     </tr>
                 @endforeach

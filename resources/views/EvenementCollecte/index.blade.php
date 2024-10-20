@@ -45,6 +45,10 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Button to download PDF -->
+            <a href="{{ route('evenements.pdf') }}" class="btn btn-info mb-3">Download PDF</a>
+
         </div>
     </div>
 </main>
