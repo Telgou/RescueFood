@@ -52,7 +52,7 @@
                     </li>
                     
                  <li class="nav-item">
-    <a class="nav-link" href="{{ route('demandes.create') }}">demands</a>
+    <a class="nav-link" href="{{ route('demandes.create') }}">Demands</a>
 </li>
 <li class="nav-item">
         <a class="nav-link" href="{{ route('demandes.mesdemandes') }}">My Demands</a>
@@ -60,17 +60,22 @@
                    
 
                     @auth
+                    @php
+                        // Récupérer le nombre de notifications
+                        $notificationCount = App\Models\Notification::count();
+                    @endphp
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </a>
-                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
-<li><a class="dropdown-item" href="{{ route('customer.profil', ['id' => auth()->user()->id]) }}">Profil</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/customer/orders')}}">Notifications</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{{ route('customer.profil', ['id' => auth()->user()->id]) }}">Profil</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/customer/orders') }}">
+                                Notifications @if($notificationCount > 0) <span class="badge bg-danger">{{ $notificationCount }}</span> @endif
+                            </a></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
-                    </li>
+                      </li>
                     @endauth
                 </ul>
             </div>
