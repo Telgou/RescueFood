@@ -26,7 +26,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            // Définir la clé étrangère
+            // Foreign keys
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('set null');
             $table->foreign('association_id')->references('id')->on('associations')->onDelete('cascade');
         });
@@ -38,11 +38,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['restaurant_id']); // Add this line to drop restaurant_id foreign key
-            $table->dropForeign(['association_id']); // Supprimer la contrainte de clé étrangère
-            $table->dropColumn('association_id'); // Supprimer la colonne
+            $table->dropForeign(['restaurant_id']);
+            $table->dropForeign(['association_id']);
+            $table->dropColumn('association_id');
         });
 
         Schema::dropIfExists('users');
     }
 };
+
