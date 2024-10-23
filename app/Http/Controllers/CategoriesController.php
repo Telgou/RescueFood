@@ -32,14 +32,12 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'type' => 'required|max:255',
-            'description' => 'nullable|string',
+            'type' => 'required|regex:/^[A-Za-z].*/|max:255', 
+            'description' => 'required|regex:/^[A-Za-z].{9,}/', 
         ]);
 
-        // Create a new category
         Categories::create($validatedData);
 
-        // Redirect to the index page with a success message
         return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
@@ -66,17 +64,14 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         // Validate the request
-         $validatedData = $request->validate([
-            'type' => 'required|max:255',
-            'description' => 'nullable|string',
+        $validatedData = $request->validate([
+            'type' => 'required|regex:/^[A-Za-z].*/|max:255', 
+            'description' => 'required|regex:/^[A-Za-z].{9,}/', 
         ]);
 
-        // Find the category and update it
         $category = Categories::findOrFail($id);
         $category->update($validatedData);
 
-        // Redirect to the index page with a success message
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 

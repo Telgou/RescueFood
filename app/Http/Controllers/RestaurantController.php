@@ -21,11 +21,11 @@ class RestaurantController extends Controller
         \Log::info('Request data:', $request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'contact' => 'nullable|string|max:255',
+            'address' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
             'cuisine_type' => 'nullable|string|max:255',
-            'opening_time' => 'nullable|date_format:H:i',
-            'closing_time' => 'nullable|date_format:H:i',
+            'opening_time' => 'required|date_format:H:i',
+            'closing_time' => 'required|date_format:H:i',
         ]);
         \Log::info('Validated data:', $validated);
 
@@ -57,7 +57,7 @@ class RestaurantController extends Controller
         $restaurants = Restaurant::where('status', 'PENDING')
             ->with('user')
             ->get();
-        
+
         return view('admin.list_restaurant.verify', compact('restaurants'));
     }
 
@@ -90,14 +90,14 @@ class RestaurantController extends Controller
     public function destroy($id)
     {
         $restaurant = Restaurant::findOrFail($id);
-        
+
         $user = User::where('id', $restaurant->user_id)->first();
         if ($user) {
             $user->delete();
         }
-        
+
         $restaurant->delete();
-        
+
         return redirect()->route('admin.dashboard')->with('success', 'Restaurant and associated user account have been deleted.');
     }
 }

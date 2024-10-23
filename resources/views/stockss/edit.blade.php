@@ -31,26 +31,26 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="food" class="form-label">Food</label>
-                        <input type="text" class="form-control" id="food" name="food" value="{{ $stock->food }}" required>
+                        <input type="text" class="form-control" id="food" name="food" value="{{ old('food', $stock->food) }}" >
                     </div>
                     <div class="mb-3">
                         <label for="expiration_date" class="form-label">Expiration Date</label>
-                        <input type="date" class="form-control" id="expiration_date" name="expiration_date" value="{{ $stock->expiration_date }}" required>
+                        <input type="date" class="form-control" id="expiration_date" name="expiration_date" value="{{ old('expiration_date', $stock->expiration_date) }}" >
                     </div>
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" value="{{ $stock->quantity }}" required>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', $stock->quantity) }}"  min="1">
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" value="{{ $stock->location }}" required>
+                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $stock->location) }}" >
                     </div>
                     <div class="mb-3">
                         <label for="category_id" class="form-label">Category</label>
-                        <select class="form-control" id="category_id" name="category_id" required>
+                        <select class="form-control" id="category_id" name="category_id" >
                             <option value="">Select a Category</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ $category->id == $stock->category_id ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}" {{ (old('category_id', $stock->category_id) == $category->id) ? 'selected' : '' }}>
                                     {{ $category->type }}
                                 </option>
                             @endforeach
@@ -64,5 +64,4 @@
         <!-- Card End -->
     </div>
 </div>
-
 @endsection

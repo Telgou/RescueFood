@@ -35,17 +35,15 @@ class StocksController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'food' => 'required|max:255',
-            'expiration_date' => 'required|date',
-            'quantity' => 'required|integer',
+            'food' => 'required|regex:/^[A-Za-z].*/|max:255',
+            'expiration_date' => 'required|date|after:today',
+            'quantity' => 'required|integer|min:1',
             'location' => 'required|max:255',
-            'category_id' => 'required|exists:categories,id', // Make sure the category exists
+            'category_id' => 'required|exists:categories,id',
         ]);
-
-        // Create a new stock item
+    
         Stocks::create($validatedData);
-
-        // Redirect to the index page with a success message
+    
         return redirect()->route('stockss.index')->with('success', 'Stock created successfully.');
     }
 
@@ -73,19 +71,19 @@ class StocksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         // Validate the request
-         $validatedData = $request->validate([
-            'food' => 'required|max:255',
-            'expiration_date' => 'required|date',
-            'quantity' => 'required|integer',
+        // Validate the request
+        $validatedData = $request->validate([
+            'food' => 'required|regex:/^[A-Za-z].*/|max:255',
+            'expiration_date' => 'required|date|after:today',
+            'quantity' => 'required|integer|min:1',
             'location' => 'required|max:255',
             'category_id' => 'required|exists:categories,id',
         ]);
-
+    
         // Find the stock and update it
         $stock = Stocks::findOrFail($id);
         $stock->update($validatedData);
-
+    
         // Redirect to the index page with a success message
         return redirect()->route('stockss.index')->with('success', 'Stock updated successfully.');
     }

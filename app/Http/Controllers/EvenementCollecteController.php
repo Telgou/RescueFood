@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EvenementCollecte;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use PDF;
 
 class EvenementCollecteController extends Controller
 {
@@ -32,11 +33,11 @@ class EvenementCollecteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|max:255',
-            'date' => 'required|date',
-            'lieu' => 'required|string|max:255',
-            'type_nourriture' => 'required|string|max:255',
-            'organisateur' => 'required|string|max:255',
+            'nom' => 'required|string|min:3|max:255',
+            'date' => 'required|date|after:today',
+            'lieu' => 'required|string|min:3|max:255',
+            'type_nourriture' => 'required|string|min:3|max:255',
+            'organisateur' => 'required|string|min:3|max:255',
         ]);
 
         $evenement = EvenementCollecte::create($request->all());
@@ -56,11 +57,11 @@ class EvenementCollecteController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nom' => 'required|string|max:255',
-            'date' => 'required|date',
-            'lieu' => 'required|string|max:255',
-            'type_nourriture' => 'required|string|max:255',
-            'organisateur' => 'required|string|max:255',
+            'nom' => 'required|string|min:3|max:255',
+            'date' => 'required|date|after:today',
+            'lieu' => 'required|string|min:3|max:255',
+            'type_nourriture' => 'required|string|min:3|max:255',
+            'organisateur' => 'required|string|min:3|max:255',
         ]);
 
         $evenement = EvenementCollecte::findOrFail($id);
@@ -75,4 +76,14 @@ class EvenementCollecteController extends Controller
         $evenement->delete();
         return redirect()->route('evenement-collecte.index')->with('success', 'Événement de collecte supprimé avec succès !');
     }
+
+    public function downloadPDF()
+    {
+        $evenements = EvenementCollecte::all(); // Récupérer tous les événements
+    
+        $pdf = PDF::loadView('EvenementCollecte.pdf', compact('evenements'));
+    
+        return $pdf->download('evenements.pdf');
+    }
+    
 }

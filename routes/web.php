@@ -16,6 +16,9 @@ use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileCustomerController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\ConsigneController;
+use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\AssociationController;
 
 use App\Http\Controllers\EvenementCollecteController;
 use App\Http\Controllers\NotificationController;
@@ -39,18 +42,21 @@ use App\Http\Controllers\StocksController;
 Route::get('/', function () {
     return view('landing_page.home');
 });
-
-Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
 
 Route::resource('stockss', StocksController::class);
 
 Route::resource('categories', CategoriesController::class);
+});
+
 
 Route::get('/menu', [MenuController::class, 'landingPage']); 
 Route::get('/promo', [PromoController::class, 'landingPage']);
 Route::get('/menu_customer', [MenuController::class, 'landingPageCustomer']); 
 Route::post('/add_to_cart', [MenuController::class, 'addToCart']); 
 Route::get('/promo_customer', [PromoController::class, 'landingPageCustomer']);
+
 
 
 
@@ -219,6 +225,12 @@ Route::middleware(['auth'])->group(function () {
 // Routes pour Notification
 Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
+    });
+
+Route::get('evenements/pdf', [EvenementCollecteController::class, 'downloadPDF'])->name('evenements.pdf');
+
+Route::get('/notification/{id}/qrcode', [NotificationController::class, 'generateQrCode'])->name('notification.qrcode');
+
 
 Route::get('/customer/{id}/profile', [ProfileCustomerController::class, 'show'])->name('customer.profil');
 Route::post('/customer/{id}/profile/photo', [ProfileCustomerController::class, 'updatePhoto'])->name('customer.profil.updatePhoto');
@@ -227,5 +239,26 @@ Route::put('/customer/{id}/profile', [ProfileCustomerController::class, 'update'
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/list_demandes', [DemandeController::class, 'index'])->name('list_demandes.index');
     Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
-
 });
+
+Route::get('consignes', [ConsigneController::class, 'index'])->name('consignes.index');       
+Route::get('consignes/create', [ConsigneController::class, 'create'])->name('consignes.create');  
+Route::post('consignes', [ConsigneController::class, 'store'])->name('consignes.store');         
+Route::get('consignes/{consigne}', [ConsigneController::class, 'show'])->name('consignes.show');  
+Route::get('consignes/{consigne}/edit', [ConsigneController::class, 'edit'])->name('consignes.edit');  
+Route::put('consignes/{consigne}/update', [ConsigneController::class, 'update'])->name('consignes.update');   
+Route::delete('consignes/{consigne}/delete', [ConsigneController::class, 'destroy'])->name('consignes.destroy');  
+
+
+Route::get('feedbacks', [FeedBackController::class, 'index'])->name('feedbacks.index');        
+Route::get('feedbacks/create', [FeedBackController::class, 'create'])->name('feedbacks.create');  
+Route::post('feedbacks', [FeedBackController::class, 'store'])->name('feedbacks.store');         
+Route::get('feedbacks/{feedback}', [FeedBackController::class, 'show'])->name('feedbacks.show');  
+Route::get('feedbacks/{feedback}/edit', [FeedBackController::class, 'edit'])->name('feedbacks.edit');  
+Route::put('feedbacks/{feedback}/update', [FeedBackController::class, 'update'])->name('feedbacks.update');  
+Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destroy'])->name('feedbacks.destroy');  
+
+Route::get('/associations', [AssociationController::class, 'index']);
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::get('/assosfeedback', [FeedBackController::class, 'assosFeedback'])->name('assosfeedback.index');
+
