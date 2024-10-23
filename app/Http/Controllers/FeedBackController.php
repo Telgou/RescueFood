@@ -95,11 +95,12 @@ class FeedBackController extends Controller
     {
         // Get the authenticated user's associated restaurant/association ID
         $associationId = Auth::user()->association_id; // Adjust this if necessary
-    
         // Fetch feedbacks for the associated association
         $feedbacks = FeedBack::where('association_id', $associationId)
             ->with('association') // Ensure you load the association data if needed
             ->get();
+            $feedbacks = Feedback::paginate(3);
+
     
         // Return the view with the feedbacks
         return view('feedbacks.assosfeedback', compact('feedbacks'));
