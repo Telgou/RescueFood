@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('mitras', function (Blueprint $table) {
             $table->id();
             $table->string('nama_toko');
-            $table->string('no_hp_toko');
             $table->string('name');
             $table->string('kategori');
             $table->string('alamat_toko');

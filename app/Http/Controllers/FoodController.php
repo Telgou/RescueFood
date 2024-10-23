@@ -23,20 +23,25 @@ class FoodController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+
+        if (!$user->restaurant_id) {
+            return redirect()->back()->with('error', 'You are not associated with any restaurant.');
+        }
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:foods,name,NULL,id,restaurant_id,' . $user->restaurant_id,
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'expired_date' => 'required|date|after:today',
+            'calories' => 'required|numeric',
+            'fats' => 'required|numeric',
+            'carbs' => 'required|numeric',
+            'proteins' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $user = Auth::user();
-        if (!$user->restaurant_id) {
-            return redirect()->back()->with('error', 'You are not associated with any restaurant.');
         }
 
         $food = new Food;
@@ -45,6 +50,10 @@ class FoodController extends Controller
         $food->description = $request->description;
         $food->image = $request->file('image')->store('foods', 'public');
         $food->expired_date = $request->expired_date;
+        $food->calories = $request->calories;
+        $food->fats = $request->fats;
+        $food->carbs = $request->carbs;
+        $food->proteins = $request->proteins;
         $food->save();
 
         return redirect()->route('food.index')->with('success', 'Food item has been added successfully.');
@@ -52,6 +61,10 @@ class FoodController extends Controller
 
     public function show($id)
     {
+        $this->validate(request(), [
+            'id' => 'required|integer',
+        ]);
+
         $food = Food::with('restaurant')->findOrFail($id);
         return view('food.show', compact('food'));
     }
@@ -64,18 +77,27 @@ class FoodController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+
+        if (!$user->restaurant_id) {
+            return redirect()->back()->with('error', 'You are not associated with any restaurant.');
+        }
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:foods,name,' . $id . ',id,restaurant_id,' . $user->restaurant_id,
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'expired_date' => 'required|date|after:today',
+            'calories' => 'required|numeric',
+            'fats' => 'required|numeric',
+            'carbs' => 'required|numeric',
+            'proteins' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = Auth::user();
         $food = Food::findOrFail($id);
 
         if ($food->restaurant_id !== $user->restaurant_id) {
@@ -85,11 +107,15 @@ class FoodController extends Controller
         $food->name = $request->name;
         $food->description = $request->description;
         $food->expired_date = $request->expired_date;
-        
+        $food->calories = $request->calories;
+        $food->fats = $request->fats;
+        $food->carbs = $request->carbs;
+        $food->proteins = $request->proteins;
+
         if ($request->hasFile('image')) {
             $food->image = $request->file('image')->store('foods', 'public');
         }
-        
+
         $food->save();
 
         return redirect()->route('food.index')->with('success', 'Food item has been updated successfully.');
@@ -107,5 +133,11 @@ class FoodController extends Controller
         $food->delete();
 
         return redirect()->route('food.index')->with('success', 'Food item has been deleted successfully.');
+    }
+
+    public function home()
+    {
+        $food = Food::with('restaurant')->distinct('name')->take(6)->get(); // Fetch all distinct food items with their associated restaurants
+        return view('landing_page.home', compact('food', 'food')); // Pass data to the view
     }
 }

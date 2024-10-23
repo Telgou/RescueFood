@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-  
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -20,13 +20,11 @@ class AuthController extends Controller
     {
         return view('auth/register');
     }
-  
+
     public function registerSave(Request $request)
     {
         Validator::make($request->all(), [
             'name' => 'required',
-            'no_hp' => 'required',
-            'tanggal_lahir' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed',
             'nom_association' => 'required_without:nom_restaurant',
@@ -38,8 +36,6 @@ class AuthController extends Controller
         // Create the user first
         $user = User::create([
             'name' => $request->name,
-            'no_hp' => $request->no_hp,
-            'tanggal_lahir' => $request->tanggal_lahir,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $isRestaurant ? 'restaurant' : 'customer',
@@ -74,39 +70,39 @@ class AuthController extends Controller
     {
         return view('auth/login');
     }
-  
+
     public function loginAction(Request $request)
-{
-    Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required'
-    ])->validate();
+    {
+        Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ])->validate();
 
-    if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-        $user = Auth::user();
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            $user = Auth::user();
 
-        if ($user) {
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->role === 'customer') {
-                return redirect()->route('customer.dashboard');
-            } elseif ($user->role === 'restaurant') {
-                return redirect()->route('restaurant.dashboard');
-            }            
+            if ($user) {
+                if ($user->role === 'admin') {
+                    return redirect()->route('admin.dashboard');
+                } elseif ($user->role === 'customer') {
+                    return redirect()->route('customer.dashboard');
+                } elseif ($user->role === 'restaurant') {
+                    return redirect()->route('restaurant.dashboard');
+                }
+            }
+
+
+            return redirect()->route('dashboard');
         }
 
- 
-        return redirect()->route('dashboard');
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.failed')
+        ]);
     }
 
 
-    throw ValidationException::withMessages([
-        'email' => trans('auth.failed')
-    ]);
-}
-  
-
-public function logout()
+    public function logout()
     {
         auth()->logout();
 
@@ -127,8 +123,8 @@ public function logout()
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function showResetForm(Request $request)
@@ -161,7 +157,7 @@ public function logout()
         );
 
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 }

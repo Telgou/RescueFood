@@ -15,6 +15,10 @@ class Food extends Model
         'description',
         'image',
         'expired_date',
+        'calories',
+        'fats',
+        'carbs',
+        'proteins',
     ];
 
     public function restaurant()

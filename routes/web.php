@@ -39,22 +39,21 @@ use App\Http\Controllers\StocksController;
 |
 */
 
-Route::get('/', function () {
-    return view('landing_page.home');
-});
+Route::get('/', [FoodController::class, 'home'])->name('home'); // Use FoodController for landing page
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('stockss/export', [StocksController::class, 'export'])->name('stockss.export');
 
-Route::resource('stockss', StocksController::class);
+    Route::resource('stockss', StocksController::class);
 
-Route::resource('categories', CategoriesController::class);
+    Route::resource('categories', CategoriesController::class);
 });
 
 
-Route::get('/menu', [MenuController::class, 'landingPage']); 
+Route::get('/menu', [MenuController::class, 'landingPage']);
 Route::get('/promo', [PromoController::class, 'landingPage']);
-Route::get('/menu_customer', [MenuController::class, 'landingPageCustomer']); 
-Route::post('/add_to_cart', [MenuController::class, 'addToCart']); 
+Route::get('/menu_customer', [MenuController::class, 'landingPageCustomer']);
+Route::post('/add_to_cart', [MenuController::class, 'addToCart']);
 Route::get('/promo_customer', [PromoController::class, 'landingPageCustomer']);
 
 
@@ -71,15 +70,15 @@ Route::get('/register', function () {
 });
 
 
-Route::get('/banner-1', function (){
+Route::get('/banner-1', function () {
     return view('banner.banner-1');
 });
 
-Route::get('/banner-2', function (){
+Route::get('/banner-2', function () {
     return view('banner.banner-2');
 });
 
-Route::get('/banner-3', function (){
+Route::get('/banner-3', function () {
     return view('banner.banner-3');
 });
 
@@ -118,27 +117,25 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
     });
 });
-            
+
 Route::middleware(['auth', 'role:restaurant'])->group(function () {
-    
+
     Route::resource('menus', MenuController::class);
     Route::resource('stocks', StockController::class);
     Route::resource('orders', OrderController::class);
     Route::prefix('restaurant')->group(function () {
-        Route::get('dashboard', function () {
-            return view('restaurant.dashboard');
-        })->name('restaurant.dashboard');
+        Route::get('dashboard', function () { return view('restaurant.dashboard'); })->name('restaurant.dashboard');
         /*Route::get('food', function () {
             return view('food.index');
         })->name('food.index');*/
         // Food routes
         Route::get('food', [FoodController::class, 'index'])->name('food.index');
-                    Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
-                    Route::post('/food', [FoodController::class, 'store'])->name('food.store');
-                    Route::get('/food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit');
-                    Route::put('/food/{id}', [FoodController::class, 'update'])->name('food.update');
-                    Route::delete('/food/{id}', [FoodController::class, 'destroy'])->name('food.destroy');
-        
+        Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
+        Route::post('/food', [FoodController::class, 'store'])->name('food.store');
+        Route::get('/food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit');
+        Route::put('/food/{id}', [FoodController::class, 'update'])->name('food.update');
+        Route::delete('/food/{id}', [FoodController::class, 'destroy'])->name('food.destroy');
+
 
     });
 
@@ -150,7 +147,7 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', function () {
             return view('customer.dashboard');
         })->name('customer.dashboard');
-        
+
     });
 });
 Route::post('/add_to_cart', [MenuController::class, 'addToCart'])->name('addToCart');
@@ -161,10 +158,10 @@ Route::post('/cart/store-order', [PromoController::class, 'storeOrder'])->name('
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/customer/orders', [CustomerController::class, 'orders'])->name('customer.orders');
 
-Route::get('/registrasi_restaurant', function (){
+Route::get('/registrasi_restaurant', function () {
     return view('customer.form');
 });
-Route::get('/dashboard', function (){
+Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
 
@@ -177,12 +174,12 @@ Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'
 
 
 
-Route::get('/lihat_data_restaurant', function (){
+Route::get('/lihat_data_restaurant', function () {
     return view('admin.list_restaurant.show');
 });
 Route::get('/restaurant/{id}', [RestaurantController::class, 'show'])->name('admin.list_restaurant.show');
 Route::post('/restaurant/{id}/accept', [RestaurantController::class, 'accept'])->name('restaurant.accept');
-Route::get('/profil_customer', function (){
+Route::get('/profil_customer', function () {
     return view('customer.profil');
 });
 Route::get('/customer/food', [FoodController::class, 'reading'])->name('customer.food');
@@ -198,9 +195,6 @@ Route::middleware(['auth'])->group(function () {
 Route::delete('cart/{rowId}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::patch('/cart/update/{rowId}', [CartController::class, 'update']);
 Route::get('/cart/total', [CartController::class, 'getTotal']);
-Route::get('/food/{id}', [FoodController::class, 'show'])->name('food.show');
-Route::get('/landing_page/food/{id}', [FoodController::class, 'show'])->name('landing_page.show_food');
-Route::get('/customer/food/{id}', [FoodController::class, 'show_customer'])->name('customer.show_food');
 
 
 Route::post('/check-association', [DemandeController::class, 'checkAssociation'])->name('check.association');
@@ -225,7 +219,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes pour Notification
 Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
-    });
+});
 
 Route::get('evenements/pdf', [EvenementCollecteController::class, 'downloadPDF'])->name('evenements.pdf');
 
@@ -241,22 +235,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/list_demandes/{demande}', [DemandeController::class, 'updatee'])->name('list_demandes.update');
 });
 
-Route::get('consignes', [ConsigneController::class, 'index'])->name('consignes.index');       
-Route::get('consignes/create', [ConsigneController::class, 'create'])->name('consignes.create');  
-Route::post('consignes', [ConsigneController::class, 'store'])->name('consignes.store');         
-Route::get('consignes/{consigne}', [ConsigneController::class, 'show'])->name('consignes.show');  
-Route::get('consignes/{consigne}/edit', [ConsigneController::class, 'edit'])->name('consignes.edit');  
-Route::put('consignes/{consigne}/update', [ConsigneController::class, 'update'])->name('consignes.update');   
-Route::delete('consignes/{consigne}/delete', [ConsigneController::class, 'destroy'])->name('consignes.destroy');  
+Route::get('consignes', [ConsigneController::class, 'index'])->name('consignes.index');
+Route::get('consignes/create', [ConsigneController::class, 'create'])->name('consignes.create');
+Route::post('consignes', [ConsigneController::class, 'store'])->name('consignes.store');
+Route::get('consignes/{consigne}', [ConsigneController::class, 'show'])->name('consignes.show');
+Route::get('consignes/{consigne}/edit', [ConsigneController::class, 'edit'])->name('consignes.edit');
+Route::put('consignes/{consigne}/update', [ConsigneController::class, 'update'])->name('consignes.update');
+Route::delete('consignes/{consigne}/delete', [ConsigneController::class, 'destroy'])->name('consignes.destroy');
 
 
-Route::get('feedbacks', [FeedBackController::class, 'index'])->name('feedbacks.index');        
-Route::get('feedbacks/create', [FeedBackController::class, 'create'])->name('feedbacks.create');  
-Route::post('feedbacks', [FeedBackController::class, 'store'])->name('feedbacks.store');         
-Route::get('feedbacks/{feedback}', [FeedBackController::class, 'show'])->name('feedbacks.show');  
-Route::get('feedbacks/{feedback}/edit', [FeedBackController::class, 'edit'])->name('feedbacks.edit');  
-Route::put('feedbacks/{feedback}/update', [FeedBackController::class, 'update'])->name('feedbacks.update');  
-Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destroy'])->name('feedbacks.destroy');  
+Route::get('feedbacks', [FeedBackController::class, 'index'])->name('feedbacks.index');
+Route::get('feedbacks/create', [FeedBackController::class, 'create'])->name('feedbacks.create');
+Route::post('feedbacks', [FeedBackController::class, 'store'])->name('feedbacks.store');
+Route::get('feedbacks/{feedback}', [FeedBackController::class, 'show'])->name('feedbacks.show');
+Route::get('feedbacks/{feedback}/edit', [FeedBackController::class, 'edit'])->name('feedbacks.edit');
+Route::put('feedbacks/{feedback}/update', [FeedBackController::class, 'update'])->name('feedbacks.update');
+Route::delete('feedbacks/{feedback}/delete', [FeedBackController::class, 'destroy'])->name('feedbacks.destroy');
 
 Route::get('/associations', [AssociationController::class, 'index']);
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
