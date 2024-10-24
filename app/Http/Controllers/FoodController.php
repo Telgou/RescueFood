@@ -184,4 +184,10 @@ class FoodController extends Controller
 
         return view('admin.list_food.statistics', compact('totalRestaurants', 'averageOpeningHours', 'totalFoodItems', 'averageCalories', 'allFoods'));
     }
+
+    public function customerhome()
+    {
+        $food = Food::with('restaurant')->distinct('name')->take(6)->get();
+        return view('customer.dashboard', compact('food'));
+    }
 }

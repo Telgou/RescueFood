@@ -31,19 +31,27 @@
     </button>
 </div>
 
-<!-- Menu -->
 <div class="container" id="coffee">
-    <h2 class="promo-heading mt-4"></h2>
     <div class="row" style="margin-top: 30px;">
-        <div class="col-md-3 py-0 py-md-0">
-            <div class="card border-0">
-            </div>
-        </div>
-        <h2 class="promo-heading mt-4"></h2>
+        <h2 class="promo-heading mt-4">Food provided by our partners</h2>
         <div class="row" style="margin-top: 30px;">
+            @foreach($food as $food)
+                <div class="col-md-3 py-0 py-md-0">
+                    <div class="card border-0">
+                        <img src="{{ asset('storage/' . $food->image) }}" alt=""> 
+                        <div class="card-body">
+                            <h3 class="menu-coffee">{{ $food->name }}</h3>
+                            @if($food->restaurant)
+                                <h5 class="menu-coffee">Provided By {{ $food->restaurant->name }} <span></span></h5>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

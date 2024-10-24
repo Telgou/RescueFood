@@ -152,10 +152,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('customer')->group(function () {
-        Route::get('dashboard', function () {
-            return view('customer.dashboard');
-        })->name('customer.dashboard');
-
+        Route::get('dashboard', [FoodController::class, 'customerhome'])->name('customer.dashboard');
     });
 });
 Route::post('/add_to_cart', [MenuController::class, 'addToCart'])->name('addToCart');

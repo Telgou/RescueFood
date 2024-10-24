@@ -1,7 +1,7 @@
 @extends('layouts.app-home')
 
 @section('content')
-<!-- Carousel -->
+
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -30,7 +30,6 @@
     </button>
 </div>
 
-<!-- Menu -->
 <div class="container" id="coffee">
     <div class="row" style="margin-top: 30px;">
         <h2 class="promo-heading mt-4">Food provided by our partners</h2>
@@ -52,7 +51,6 @@
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
