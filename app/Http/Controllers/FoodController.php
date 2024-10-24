@@ -23,7 +23,7 @@ class FoodController extends Controller
 
     public function allFood()
     {
-        $food = Food::paginate(9);
+        $food = Food::paginate(6);
         return view('admin.list_food.show', compact('food'));
     }
 
