@@ -1,55 +1,74 @@
 @extends('restaurant.dashboard')
 
 @section('content')
-<div class="container">
-    <h1>Add New Food Item</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Add New Food Item</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <li class="">{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <form action="{{ route('food.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('food.store') }}" method="POST" enctype="multipart/form-data"
+        class="bg-light p-4 rounded shadow text-dark">
         @csrf
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="name">Name</label>
             <input type="text" name="name" id="name" class="form-control" required onblur="fetchNutrients()">
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="description">Description</label>
             <textarea name="description" id="description" class="form-control" required></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="image">Image</label>
             <input type="file" name="image" id="image" class="form-control-file" required>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="expired_date">Expiration Date</label>
             <input type="date" name="expired_date" id="expired_date" class="form-control" required
                 min="{{ date('Y-m-d') }}">
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="calories">Calories Per 100g</label>
             <input type="text" name="calories" id="calories" class="form-control" required step="0.01">
-            <div id="nutrient-results" class="mt-3"></div> <!-- Container for displaying results -->
+            <div id="nutrient-results" class="mt-3 d-flex justify-content-between">
+                <!-- Added d-flex and justify-content-between -->
+                <div id="protein" class="mr-3"></div> <!-- Placeholder for Protein -->
+                <div id="fat" class="mr-3"></div> <!-- Placeholder for Fat -->
+                <div id="carbs"></div> <!-- Placeholder for Carbohydrates -->
+            </div> <!-- Container for displaying results -->
         </div>
         <input type="hidden" name="fats" id="fats">
         <input type="hidden" name="carbs" id="carbs">
         <input type="hidden" name="proteins" id="proteins">
-        <button type="submit" class="btn btn-primary">Add Food Item</button>
+        <button type="submit" id="submit-button" class="btn btn-primary btn-block">Add Food Item</button>
     </form>
 </div>
 
 <script>
+    function recalculateCalories() {
+        const fats = parseFloat(document.getElementById('input_fat').value) || 0;
+        const carbs = parseFloat(document.getElementById('input_carbs').value) || 0;
+        const proteins = parseFloat(document.getElementById('input_protein').value) || 0;
+
+        const calories = (fats * 9) + (carbs * 4) + (proteins * 4);
+        document.getElementById('calories').value = calories.toFixed(2);
+    }
+
     function fetchNutrients() {
         const foodName = document.getElementById('name').value;
         const resultsContainer = document.getElementById('nutrient-results');
+        const submitButton = document.getElementById('submit-button');
         resultsContainer.innerHTML = '';
+
+        // Disable the submit button
+        submitButton.disabled = true;
 
         if (foodName) {
             fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(foodName)}&search_simple=1&json=1`)
@@ -73,7 +92,7 @@
                             }
                         });
 
-                        if (mostSimilarProduct) {
+                        if (mostSimilarProduct && mostSimilarProduct.product_name.length > 3) {
                             const productName = mostSimilarProduct.product_name || 'Unknown';
                             const brand = mostSimilarProduct.brands || 'Unknown';
                             const fats = mostSimilarProduct.nutriments ? mostSimilarProduct.nutriments.fat_100g || 0 : 0;
@@ -89,25 +108,60 @@
 
                             resultsContainer.innerHTML = `
                                 <div class="product d-flex flex-column">
-                                    <p><strong>Item:</strong> ${productName}</p>
-                                    <p><strong>Brand:</strong> ${brand}</p>
-                                    <p><strong>Calories:</strong> ${calories.toFixed(2)} kcal</p>
-                                    <p><strong>Protein:</strong> ${proteins} g</p>
-                                    <p><strong>Fat:</strong> ${fats} g</p>
-                                    <p><strong>Carbohydrates:</strong> ${carbs} g</p>
+                                    <div id="protein"><strong>Protein:</strong> ${proteins} g</div>
+                                    <div id="fat"><strong>Fat:</strong> ${fats} g</div>
+                                    <div id="carbs"><strong>Carbohydrates:</strong> ${carbs} g</div>
                                 </div>
                             `;
                         } else {
                             resultsContainer.innerHTML = '<p>No products found matching your search.</p>';
+                            resultsContainer.innerHTML += `
+                                <div class="form-group mb-3">
+                                    <label for="input_protein">Protein (g)</label>
+                                    <input type="text" name="input_protein" id="input_protein" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="input_fat">Fat (g)</label>
+                                    <input type="text" name="input_fat" id="input_fat" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="input_carbs">Carbohydrates (g)</label>
+                                    <input type="text" name="input_carbs" id="input_carbs" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                            `;
+
                         }
                     } else {
-                        resultsContainer.innerHTML = '<p>No results found.</p>';
+                        resultsContainer.innerHTML = '<p>Please insert nutrients manually:</p>';
+                        // Adding input fields for protein, fat, and carbs
+                        resultsContainer.innerHTML += `
+                                <div class="form-group mb-3">
+                                    <label for="input_protein">Protein (g)</label>
+                                    <input type="text" name="input_protein" id="input_protein" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="input_fat">Fat (g)</label>
+                                    <input type="text" name="input_fat" id="input_fat" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="input_carbs">Carbohydrates (g)</label>
+                                    <input type="text" name="input_carbs" id="input_carbs" class="form-control" oninput="recalculateCalories()">
+                                </div>
+                            `;
+
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching from Open Food Facts:', error);
                     fetchFromSpoonacular(foodName, resultsContainer);
+                })
+                .finally(() => {
+                    // Enable the submit button after fetching is complete
+                    submitButton.disabled = false;
                 });
+        } else {
+            // Enable the submit button if no food name is provided
+            submitButton.disabled = false;
         }
     }
 
@@ -171,6 +225,7 @@
             })
             .catch(error => console.error('Error fetching nutrient data from Spoonacular:', error));
     }
+
 </script>
 
 

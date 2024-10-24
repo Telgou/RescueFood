@@ -30,7 +30,7 @@ class FoodController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255|unique:foods,name,NULL,id,restaurant_id,' . $user->restaurant_id,
+            'name' => 'required|max:255|unique:food,name,NULL,id,restaurant_id,' . $user->restaurant_id,
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'expired_date' => 'required|date|after:today',
@@ -84,7 +84,7 @@ class FoodController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255|unique:foods,name,' . $id . ',id,restaurant_id,' . $user->restaurant_id,
+            'name' => 'required|max:255|unique:food,name,' . $id . ',id,restaurant_id,' . $user->restaurant_id,
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'expired_date' => 'required|date|after:today',
