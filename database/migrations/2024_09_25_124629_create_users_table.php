@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->bigInteger('no_hp');
+            $table->date('tanggal_lahir');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            // Définir la clé étrangère
+            // Foreign keys
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('set null');
             $table->foreign('association_id')->references('id')->on('associations')->onDelete('cascade');
         });
@@ -39,8 +41,10 @@ return new class extends Migration
             $table->dropForeign(['restaurant_id']);
             $table->dropForeign(['association_id']); // Supprimer la contrainte de clé étrangère
             $table->dropColumn('association_id'); // Supprimer la colonne
+
         });
 
         Schema::dropIfExists('users');
     }
 };
+
