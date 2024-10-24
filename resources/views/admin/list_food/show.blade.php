@@ -28,7 +28,7 @@
                             <p class="card-text"><strong>Description:</strong> {{ $item->description }}</p>
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('adminEdit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('food.destroy', $item->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.food.destroy', $item->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"

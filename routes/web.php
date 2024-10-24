@@ -43,8 +43,9 @@ Route::get('/', [FoodController::class, 'home'])->name('home');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/list_food', [FoodController::class, 'allFood'])->name('list_food');
-    Route::get('/food/{id}/edit', [FoodController::class, 'adminEdit'])->name('adminEdit');
+    Route::get('/food/{id}/editadmin', [FoodController::class, 'adminEdit'])->name('adminEdit');
     Route::put('/food/{id}', [FoodController::class, 'update'])->name('adminupdate');
+    Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('admin.food.destroy');
     Route::get('/verify_restaurant', [RestaurantController::class, 'indexunverified'])->name('verify_restaurant');
     Route::post('/verify_restaurant/{id}', [RestaurantController::class, 'accept'])->name('restaurant.accept');
     Route::delete('/verify_restaurant/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
@@ -60,9 +61,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('categories', CategoriesController::class);
 });
 
-Route::middleware(['auth', 'role:admin|restaurant'])->group(function () {
-    Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
-});
 
 Route::middleware(['auth', 'role:restaurant'])->group(function () {
 
@@ -76,6 +74,7 @@ Route::middleware(['auth', 'role:restaurant'])->group(function () {
         Route::post('/food', [FoodController::class, 'store'])->name('food.store');
         Route::get('/food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit');
         Route::put('/food/{id}', [FoodController::class, 'update'])->name('food.update');
+        Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
     });
     
 });
@@ -139,13 +138,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('dashboard', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
-        Route::get('/foods', [FoodController::class, 'index'])->name('foods.index');
-        Route::get('/food', [FoodController::class, 'index'])->name('food.index');
-        Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
-        Route::post('/food', [FoodController::class, 'store'])->name('food.store');
-        Route::get('/food/{food}/edit', [FoodController::class, 'edit'])->name('food.edit');
-        Route::put('/food/{food}', [FoodController::class, 'update'])->name('food.update');
-        Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
+        //Route::get('/foods', [FoodController::class, 'index'])->name('foods.index');
+        //Route::get('/food', [FoodController::class, 'index'])->name('food.index');
+        //Route::get('/food/create', [FoodController::class, 'create'])->name('food.create');
+        //Route::post('/food', [FoodController::class, 'store'])->name('food.store');
+        //Route::get('/food/{food}/edit', [FoodController::class, 'edit'])->name('food.edit');
+        //Route::put('/food/{food}', [FoodController::class, 'update'])->name('food.update');
+        //Route::delete('/food/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
     });
 });
 

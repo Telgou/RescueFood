@@ -41,7 +41,9 @@
                         <img src="{{ asset('storage/' . $food->image) }}" alt=""> 
                         <div class="card-body">
                             <h3 class="menu-coffee">{{ $food->name }}</h3>
-                            <h5 class="menu-coffee">Provided By {{ $food->restaurant->name }} <span></span></h5>
+                            @if($food->restaurant)
+                                <h5 class="menu-coffee">Provided By {{ $food->restaurant->name }} <span></span></h5>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -131,9 +131,8 @@ class FoodController extends Controller
         $food->save();
 
         if ($user->role === 'admin') {
-            $food = Food::paginate(9);
             session()->flash('success', 'Food item has been updated successfully.');
-            return view('admin.list_food.show', compact('food'));
+            return redirect()->route('list_food');
         }
         return redirect()->route('food.index')->with('success', 'Food item has been updated successfully.');
     }
