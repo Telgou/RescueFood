@@ -36,7 +36,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['restaurant_id']); // Add this line to drop restaurant_id foreign key
+            $table->dropForeign(['restaurant_id']);
             $table->dropForeign(['association_id']); // Supprimer la contrainte de clé étrangère
             $table->dropColumn('association_id'); // Supprimer la colonne
         });

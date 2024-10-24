@@ -59,4 +59,10 @@ class Restaurant extends Model
     {
         return $this->hasMany(FeedBack::class);
     }
+
+    public static function totalRestaurants()
+    {
+        return self::count();
+    }
+
 }

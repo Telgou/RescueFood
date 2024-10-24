@@ -22,7 +22,6 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Image</th>
-                    <th>Expiry Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -36,16 +35,17 @@
                             <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="200"
                                 class="img-thumbnail">
                         </td>
-                        <td>{{ $item->expired_date }}</td>
                         <td>
-                            <a href="{{ route('food.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('food.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this food item?')">Delete
-                                </button>
-                            </form>
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ route('food.edit', $item->id) }}" class="btn btn-warning me-1">Edit</a>
+                                <form action="{{ route('food.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this food item?')">Delete
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

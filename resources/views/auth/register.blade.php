@@ -40,7 +40,7 @@
                                     <p class="mb-0">Name of the association</p>
                                     <div class="form-check mb-0">
                                         <input class="form-check-input" type="checkbox" id="isRestaurant" name="isRestaurant">
-                                        <label class="form-check-label" for="isRestaurant">Register as a restaurant</label>
+                                        <label class="form-check-label" for="isRestaurant">Register as a restaurant representative</label>
                                     </div>
                                 </div>
                                 <div class="form-group">

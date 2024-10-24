@@ -29,20 +29,19 @@
             <label for="image">Image</label>
             <input type="file" name="image" id="image" class="form-control-file" required>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group mb-3" hidden>
             <label for="expired_date">Expiration Date</label>
             <input type="date" name="expired_date" id="expired_date" class="form-control" required
-                min="{{ date('Y-m-d') }}">
+                min="{{ date('Y-m-d') }}" value="{{ date('Y-m-d', strtotime('+1 year')) }}">
         </div>
         <div class="form-group mb-3">
             <label for="calories">Calories Per 100g</label>
             <input type="text" name="calories" id="calories" class="form-control" required step="0.01">
             <div id="nutrient-results" class="mt-3 d-flex justify-content-between">
-                <!-- Added d-flex and justify-content-between -->
-                <div id="protein" class="mr-3"></div> <!-- Placeholder for Protein -->
-                <div id="fat" class="mr-3"></div> <!-- Placeholder for Fat -->
-                <div id="carbs"></div> <!-- Placeholder for Carbohydrates -->
-            </div> <!-- Container for displaying results -->
+                <div id="protein" class="mr-3"></div>
+                <div id="fat" class="mr-3"></div>
+                <div id="carbs"></div>
+            </div>
         </div>
         <input type="hidden" name="fats" id="fats">
         <input type="hidden" name="carbs" id="carbs">
@@ -67,7 +66,6 @@
         const submitButton = document.getElementById('submit-button');
         resultsContainer.innerHTML = '';
 
-        // Disable the submit button
         submitButton.disabled = true;
 
         if (foodName) {
@@ -133,7 +131,7 @@
                         }
                     } else {
                         resultsContainer.innerHTML = '<p>Please insert nutrients manually:</p>';
-                        // Adding input fields for protein, fat, and carbs
+
                         resultsContainer.innerHTML += `
                                 <div class="form-group mb-3">
                                     <label for="input_protein">Protein (g)</label>
@@ -156,11 +154,11 @@
                     fetchFromSpoonacular(foodName, resultsContainer);
                 })
                 .finally(() => {
-                    // Enable the submit button after fetching is complete
+
                     submitButton.disabled = false;
                 });
         } else {
-            // Enable the submit button if no food name is provided
+
             submitButton.disabled = false;
         }
     }

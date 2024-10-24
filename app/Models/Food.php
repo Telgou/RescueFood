@@ -26,4 +26,14 @@ class Food extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
+    public static function totalFoodItems()
+    {
+        return self::count();
+    }
+
+    public static function averageCalories()
+    {
+        return self::avg('calories');
+    }
+
 }

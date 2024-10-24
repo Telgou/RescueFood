@@ -35,13 +35,13 @@
     <div class="row" style="margin-top: 30px;">
         <h2 class="promo-heading mt-4">Food provided by our partners</h2>
         <div class="row" style="margin-top: 30px;">
-            @foreach($food as $food) <!-- Loop through featured foods -->
+            @foreach($food as $food)
                 <div class="col-md-3 py-0 py-md-0">
                     <div class="card border-0">
-                        <img src="{{ asset('storage/' . $food->image) }}" alt=""> <!-- Display food image -->
+                        <img src="{{ asset('storage/' . $food->image) }}" alt=""> 
                         <div class="card-body">
-                            <h3 class="menu-coffee">{{ $food->name }}</h3> <!-- Display food name -->
-                            <h5 class="menu-coffee">Rp {{ number_format($food->price, 2) }} <span></span></h5> <!-- Display food price -->
+                            <h3 class="menu-coffee">{{ $food->name }}</h3>
+                            <h5 class="menu-coffee">Provided By {{ $food->restaurant->name }} <span></span></h5>
                         </div>
                     </div>
                 </div>

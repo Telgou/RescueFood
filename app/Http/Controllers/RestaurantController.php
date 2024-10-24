@@ -31,7 +31,6 @@ class RestaurantController extends Controller
 
         $restaurant = auth()->user()->restaurant;
 
-        // Update the restaurant attributes directly
         foreach ($validated as $key => $value) {
             $restaurant->{$key} = $value;
         }
