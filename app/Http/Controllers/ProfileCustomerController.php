@@ -34,8 +34,6 @@ public function show($id)
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'no_hp' => 'required|string|max:15',
-        'tanggal_lahir' => 'nullable|date',
         'email' => 'required|email|max:255',
         'password' => 'nullable|string|min:8|confirmed',
         'association_id' => 'nullable|exists:associations,id', // Validation pour l'association
@@ -46,8 +44,6 @@ public function show($id)
 
     // Mettre à jour les informations
     $profil_customer->name = $request->name;
-    $profil_customer->no_hp = $request->no_hp;
-    $profil_customer->tanggal_lahir = $request->tanggal_lahir;
     $profil_customer->email = $request->email;
 
     if ($request->filled('password')) {

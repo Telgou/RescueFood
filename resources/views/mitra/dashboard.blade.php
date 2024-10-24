@@ -39,12 +39,6 @@
                             Stock
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="{{url('orders')}}" class="sidebar-link">
-                            <i class="fa-solid fa-comment-dollar pe-2"></i>
-                            Pemesanan
-                        </a>
-                    </li>
                 </ul>
             </div>
         </aside>

@@ -39,8 +39,9 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['restaurant_id']);
-            $table->dropForeign(['association_id']);
-            $table->dropColumn('association_id');
+            $table->dropForeign(['association_id']); // Supprimer la contrainte de clé étrangère
+            $table->dropColumn('association_id'); // Supprimer la colonne
+
         });
 
         Schema::dropIfExists('users');

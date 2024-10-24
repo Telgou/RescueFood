@@ -24,6 +24,13 @@
                     List of Users
                 </a>
             </li>
+            <li class="sidebar-item {{ Request::is('list_food') ? 'active' : '' }}">
+    <a href="{{ url('list_food') }}" class="sidebar-link">
+        <i class="fa-solid fa-utensils pe-2"></i>
+        List of all Food
+    </a>
+</li>
+
 
                                     <!-- Lien vers EvenementCollecte -->
                                     <li class="sidebar-item {{ Request::is('evenement-collecte*') ? 'active' : '' }}">
@@ -51,6 +58,12 @@
     <a href="{{ route('stockss.index') }}" class="sidebar-link">
         <i class="fa-solid fa-newspaper pe-2"></i>
         Stock
+    </a>
+</li>
+<li class="sidebar-item {{ Request::is('admin/statistics') ? 'active' : '' }}">
+    <a href="{{ url('admin/statistics') }}" class="sidebar-link">
+        <i class="fa-solid fa-chart-line pe-2"></i>
+        Partners Food Statistics
     </a>
 </li>
 <li class="sidebar-item">

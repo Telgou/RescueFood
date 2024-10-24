@@ -20,18 +20,17 @@ class RestaurantController extends Controller
     {
         \Log::info('Request data:', $request->all());
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:restaurants,name,' . auth()->user()->restaurant->id,
             'address' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
             'cuisine_type' => 'nullable|string|max:255',
             'opening_time' => 'required|date_format:H:i',
-            'closing_time' => 'required|date_format:H:i',
+            'closing_time' => 'required|date_format:H:i|after:opening_time',
         ]);
         \Log::info('Validated data:', $validated);
 
         $restaurant = auth()->user()->restaurant;
 
-        // Update the restaurant attributes directly
         foreach ($validated as $key => $value) {
             $restaurant->{$key} = $value;
         }

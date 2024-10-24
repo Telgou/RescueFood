@@ -1,4 +1,4 @@
-@extends('restaurant.dashboard')
+@extends('layouts.app-admin')
 
 @section('content')
 <div class="container">
@@ -14,11 +14,11 @@
         </div>
     @endif
 
-    <form action="{{ route('food.update', $food->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('adminupdate', $food->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">Names:</label>
             <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $food->name) }}"
                 required readonly>
         </div>
@@ -74,7 +74,6 @@
 </div>
 
 <script>
-
     function recalculateCalories() {
         const fats = parseFloat(document.getElementById('fats').value) || 0;
         const carbs = parseFloat(document.getElementById('carbs').value) || 0;
